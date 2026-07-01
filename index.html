@@ -9,12 +9,12 @@
 <meta property="og:title" content="Château Dreux">
 <meta property="og:description" content="An exclusive soirée, convened once, for those who have found this. August 1, 2026 — Château Dreux, Austin, TX.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://images.unsplash.com/photo-1659633874076-82f57ba8b486?fm=jpg&q=72&w=1200&auto=format&fit=crop">
+<meta property="og:image" content="https://chateaudreux.party/manor.jpg">
+<meta property="og:url" content="https://chateaudreux.party/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84'%3E%3Crect width='84' height='84' fill='%2308070D'/%3E%3Ccircle cx='42' cy='42' r='34' fill='none' stroke='%23ECEAF2' stroke-opacity='0.5' stroke-width='2'/%3E%3Cpath d='M42 16 L68 42 L42 68 L16 42 Z' fill='none' stroke='%23FF2EC4' stroke-width='2.5'/%3E%3Ccircle cx='42' cy='42' r='5' fill='none' stroke='%234DFF6E' stroke-width='2.5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1659633874076-82f57ba8b486?fm=jpg&q=75&w=2200&auto=format&fit=crop">
+<link rel="preload" as="image" href="manor.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -27,10 +27,9 @@
     --ink:#ECEAF2;
     --dim:#938EAD;
     --line:rgba(228,226,240,0.12);
-    --img-manor:url('https://images.unsplash.com/photo-1659633874076-82f57ba8b486?fm=jpg&q=75&w=2200&auto=format&fit=crop');
-    --img-stair:url('https://images.unsplash.com/photo-1689758367656-8a57cc84f53e?fm=jpg&q=70&w=1100&auto=format&fit=crop');
-    --img-crowd:url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?fm=jpg&q=72&w=2000&auto=format&fit=crop');
-    --img-pool:url('https://images.unsplash.com/photo-1533030265665-8a0445a83c61?fm=jpg&q=72&w=2000&auto=format&fit=crop');
+    --img-manor:url('manor.jpg');
+    --img-crowd:url('crowd.jpg');
+    --img-pool:url('pool.jpg');
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
@@ -271,7 +270,7 @@
     -webkit-box-decoration-break:clone;
     transition:background 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
   }
-  .redact:hover{
+  .redact:hover, .redact:focus-visible, .redact.revealed{
     background:transparent;
     color:var(--green);
     text-shadow:0 0 14px rgba(77,255,110,0.5);
@@ -1050,6 +1049,108 @@
   }
   .fine-print:hover{ opacity:0.9; }
 
+  /* ============ POST-RSVP CONFIRMATION ============ */
+  #confirmedPanel h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:27px;
+    letter-spacing:-0.01em;
+    margin-bottom:8px;
+  }
+  #confirmedPanel .lead{ color:var(--dim); font-style:italic; font-size:15px; margin-bottom:26px; }
+  .cal-btn{
+    display:block;
+    width:100%;
+    margin-top:12px;
+    background:transparent;
+    border:1px solid rgba(77,255,110,0.5);
+    color:var(--green);
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    text-decoration:none;
+    text-align:center;
+    padding:15px;
+    cursor:pointer;
+    transition:background 0.3s ease, color 0.3s ease;
+  }
+  .cal-btn:hover{ background:var(--green); color:#08070D; }
+  .cal-btn.alt{ border-color:var(--line); color:var(--dim); }
+  .cal-btn.alt:hover{ background:rgba(236,234,242,0.9); color:#08070D; }
+  #confirmedPanel .form-note{ margin-top:20px; text-align:center; }
+
+  /* ============ THE OGRE GOSPEL (type s-h-r-e-k) ============ */
+  #jumpscare{
+    position:fixed; inset:0;
+    z-index:380;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6vw;
+    background:rgba(3,9,4,0.93);
+    pointer-events:none;
+  }
+  #jumpscare.on{ display:flex; animation:jumpShake 0.09s linear infinite; }
+  #jumpscare .line{
+    font-family:'Fraunces', serif;
+    font-weight:800;
+    font-style:italic;
+    text-transform:uppercase;
+    font-size:clamp(34px, 9vw, 120px);
+    line-height:1.05;
+    color:var(--green);
+    text-shadow:0 0 18px rgba(77,255,110,0.9), 0 0 70px rgba(77,255,110,0.55), 0 0 140px rgba(77,255,110,0.35);
+  }
+  @keyframes jumpShake{
+    0%{ transform:translate(0,0); }
+    25%{ transform:translate(-9px,6px); }
+    50%{ transform:translate(7px,-8px); }
+    75%{ transform:translate(-6px,-5px); }
+    100%{ transform:translate(8px,7px); }
+  }
+
+  /* ============ THE BLESSING (sigil, thrice) ============ */
+  #blessing{
+    position:fixed; inset:0;
+    z-index:380;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:8vw;
+    background:
+      linear-gradient(180deg, rgba(3,10,5,0.78), rgba(3,10,5,0.86)),
+      url('shrine.jpg') center/cover;
+    display:none;
+    pointer-events:none;
+  }
+  #blessing.on{ display:flex; animation:blessIn 0.8s ease; }
+  #blessing.off{ display:flex; animation:blessOut 0.6s ease forwards; }
+  @keyframes blessIn{ from{ opacity:0; } to{ opacity:1; } }
+  @keyframes blessOut{ from{ opacity:1; } to{ opacity:0; } }
+  #blessing .word{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:520;
+    font-size:clamp(28px, 5.4vw, 72px);
+    line-height:1.15;
+    color:var(--green);
+    text-shadow:0 0 24px rgba(77,255,110,0.7), 0 0 90px rgba(77,255,110,0.4);
+  }
+  #blessing .sub{
+    display:block;
+    margin-top:26px;
+    font-family:'Space Mono', monospace;
+    font-style:normal;
+    font-size:11px;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--ink);
+    opacity:0.85;
+  }
+
   /* ============ RESPONSIVE ============ */
   @media (max-width:820px){
     body{ font-size:16px; }
@@ -1117,6 +1218,16 @@
   <audio id="tadaAudio" preload="auto">
     <source src="tada.mp3" type="audio/mpeg">
   </audio>
+  <!-- optional: drop blessing.mp3 (a short organ sting) in the repo root and it plays with the blessing -->
+  <audio id="blessAudio" preload="auto">
+    <source src="blessing.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- easter egg overlays -->
+  <div id="jumpscare" aria-hidden="true"><div class="line" id="jumpscareLine"></div></div>
+  <div id="blessing" aria-hidden="true">
+    <div class="word">The Terrible God smiles upon you.<span class="sub">Blessing recorded &middot; Attendance remains mandatory</span></div>
+  </div>
 
   <!-- sound toggle, shown once inside -->
   <button class="sound-toggle muted" id="soundToggle" aria-label="Toggle sound" style="display:none;">
@@ -1174,7 +1285,7 @@
     <div class="body">
       <p>Membership in this gathering is not extended lightly. The residence in question &mdash; known to its keeper as Château Dreux &mdash; has stood, by design, outside public record since February of 2025, observed by few, documented by fewer, properly welcomed by no one at all.</p>
       <p>That omission concludes on the evening of August 1st, when the doors are opened in full, for the first and, by charter, only time. What has been withheld will be revealed. What has been private will, briefly, be shared.</p>
-      <p>The keeper of the residence departs for <span class="redact" title="Declassified on hover">the Pacific</span> within the year, and what remains of his tenure will close exactly as it opened &mdash; door unlocked, lights low, something humming quietly in another room. Two occasions, a housewarming considerably overdue and a farewell considerably early, observed as one.</p>
+      <p>The keeper of the residence departs for <span class="redact" title="Declassified on hover" tabindex="0">the Pacific</span> within the year, and what remains of his tenure will close exactly as it opened &mdash; door unlocked, lights low, something humming quietly in another room. Two occasions, a housewarming considerably overdue and a farewell considerably early, observed as one.</p>
       <p class="coda">Guests are advised not to dwell on which moment they are currently experiencing. It rarely helps.</p>
     </div>
   </section>
@@ -1258,6 +1369,7 @@
           <p class="lead">Submit the form below. Confirmation will follow by separate message.</p>
           <form class="rsvp-form" id="rsvpForm" action="https://formsubmit.co/damanwitdaplan@gmail.com" method="POST">
             <input type="hidden" name="_subject" value="RSVP: Late Housewarming / Early Farewell">
+            <input type="hidden" name="_next" value="https://chateaudreux.party/?submitted=1">
             <input type="text" name="_honey" style="display:none">
             <div class="row-2">
               <div class="field"><label for="name">Full Name</label><input type="text" id="name" name="Name" required></div>
@@ -1270,6 +1382,14 @@
             <div class="field"><label for="message">A Message for the Order</label><textarea id="message" name="Message" placeholder="Dietary restrictions, alibis, etc."></textarea></div>
             <button type="submit" class="submit-btn">Submit for Consideration</button>
           </form>
+        </div>
+
+        <div id="confirmedPanel" class="ticket-card" style="display:none;">
+          <h3>Request Received</h3>
+          <p class="lead">Your request is under review. Confirmation will follow by separate message.</p>
+          <button class="cal-btn" id="icsBtn" type="button">Mark Your Calendar (.ics)</button>
+          <a class="cal-btn alt" id="gcalBtn" href="#" target="_blank" rel="noopener">Google Calendar</a>
+          <div class="form-note">Do not contact the committee. The committee will contact you.</div>
         </div>
       </div>
     </div>
@@ -1434,9 +1554,20 @@
     // ===== live countdown to doors =====
     const tMinusEl = document.getElementById('tMinus');
     const doorsOpen = new Date('2026-08-01T15:00:00-05:00');
+    const partyEnd = new Date('2026-08-02T06:00:00-05:00');
+    // temporal state: 'before' | 'party' | 'after' (preview with ?preview=party or ?preview=after)
+    const urlParams = new URLSearchParams(location.search);
+    const previewState = urlParams.get('preview');
+    const siteState = (previewState === 'party' || previewState === 'after') ? previewState
+      : (Date.now() >= partyEnd ? 'after' : (Date.now() >= doorsOpen ? 'party' : 'before'));
     function tickTMinus(){
+      if (siteState === 'after'){
+        tMinusEl.textContent = 'THE COMMITTEE IS DISSOLVED';
+        clearInterval(tMinusInterval);
+        return;
+      }
       const ms = doorsOpen - Date.now();
-      if (ms <= 0){
+      if (ms <= 0 || siteState === 'party'){
         tMinusEl.textContent = 'THE EVENING IS IN SESSION';
         clearInterval(tMinusInterval);
         return;
@@ -1448,8 +1579,10 @@
       const pad = n => String(n).padStart(2, '0');
       tMinusEl.textContent = 'CONVENES IN ' + d + 'D ' + pad(h) + 'H ' + pad(m) + 'M ' + pad(s) + 'S';
     }
-    tickTMinus();
+    // interval is created before the first tick so the party/after branches
+    // can clearInterval() without hitting the const's dead zone
     const tMinusInterval = setInterval(tickTMinus, 1000);
+    tickTMinus();
 
     // ===== fake-scarcity countdown on the ticket =====
     let remaining = 30, interval = null, claimed = false;
@@ -1636,7 +1769,127 @@
       }, 2400);
     });
 
-    startTimer();
+    // ===== redacted text — tap/keyboard reveal (touch + a11y) =====
+    document.querySelectorAll('.redact').forEach(r => {
+      r.addEventListener('click', () => r.classList.toggle('revealed'));
+      r.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); r.classList.toggle('revealed'); }
+      });
+    });
+
+    // ===== calendar buttons (shown in the post-RSVP confirmation) =====
+    const EVENT = {
+      title: 'Late Housewarming, Early Farewell - Chateau Dreux',
+      startUTC: '20260801T200000Z',   // Aug 1 2026, 3:00 PM CDT
+      endUTC: '20260802T050000Z',     // Aug 2 2026, midnight CDT
+      location: '5521 Springdale Rd, Austin, TX',
+      details: 'One evening only. Attendance will be noted, favorably.\nhttps://chateaudreux.party'
+    };
+    document.getElementById('gcalBtn').href =
+      'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=' + encodeURIComponent(EVENT.title) +
+      '&dates=' + EVENT.startUTC + '/' + EVENT.endUTC +
+      '&location=' + encodeURIComponent(EVENT.location) +
+      '&details=' + encodeURIComponent(EVENT.details);
+    document.getElementById('icsBtn').addEventListener('click', () => {
+      const esc = s => s.replace(/,/g, '\\,').replace(/\n/g, '\\n');
+      const ics = [
+        'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Chateau Dreux//Invitation//EN',
+        'BEGIN:VEVENT',
+        'UID:soiree-2026@chateaudreux.party',
+        'DTSTAMP:20260101T000000Z',
+        'DTSTART:' + EVENT.startUTC,
+        'DTEND:' + EVENT.endUTC,
+        'SUMMARY:' + esc(EVENT.title),
+        'LOCATION:' + esc(EVENT.location),
+        'DESCRIPTION:' + esc(EVENT.details),
+        'END:VEVENT', 'END:VCALENDAR'
+      ].join('\r\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+      a.download = 'chateau-dreux.ics';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    // ===== the ogre gospel — type s-h-r-e-k anywhere; each recitation advances =====
+    // PASTE YOUR LINES HERE, in order. (Left as placeholders so the committee
+    // doesn't get sued over song lyrics — fill in whatever verses you prefer.)
+    const GOSPEL = [
+      'PASTE LINE 1 HERE',
+      'PASTE LINE 2 HERE',
+      'PASTE LINE 3 HERE',
+      'PASTE LINE 4 HERE'
+    ];
+    const jumpscareEl = document.getElementById('jumpscare');
+    const jumpscareLine = document.getElementById('jumpscareLine');
+    let typedBuf = '', gospelIdx = 0, jumpscareTimer = null;
+    document.addEventListener('keydown', (e) => {
+      if (e.target instanceof Element && e.target.matches('input, textarea')) return; // don't hijack the RSVP form
+      if (e.key.length !== 1) return;
+      typedBuf = (typedBuf + e.key.toLowerCase()).slice(-5);
+      if (typedBuf === 'shrek'){
+        typedBuf = '';
+        jumpscareLine.textContent = GOSPEL[gospelIdx % GOSPEL.length];
+        gospelIdx++;
+        jumpscareEl.classList.add('on');
+        clearTimeout(jumpscareTimer);
+        jumpscareTimer = setTimeout(() => jumpscareEl.classList.remove('on'), 1700);
+      }
+    });
+
+    // ===== the blessing — click either sigil three times =====
+    const blessingEl = document.getElementById('blessing');
+    let sigilTaps = 0, sigilTapTimer = null;
+    document.querySelectorAll('.gate-sigil, .footer-sigil').forEach(sigil => {
+      sigil.addEventListener('click', () => {
+        sigilTaps++;
+        clearTimeout(sigilTapTimer);
+        sigilTapTimer = setTimeout(() => { sigilTaps = 0; }, 1400);
+        if (sigilTaps >= 3){
+          sigilTaps = 0;
+          blessingEl.classList.remove('off');
+          blessingEl.classList.add('on');
+          const organ = document.getElementById('blessAudio');
+          organ.volume = 0.8;
+          organ.currentTime = 0;
+          organ.play().catch(() => {}); // silent if blessing.mp3 isn't there yet
+          setTimeout(() => {
+            blessingEl.classList.remove('on');
+            blessingEl.classList.add('off');
+            setTimeout(() => blessingEl.classList.remove('off'), 650);
+          }, 2600);
+        }
+      });
+    });
+
+    // ===== initial state: normal, post-RSVP, or temporal =====
+    const gateTitleEl = document.querySelector('.gate-title');
+    const gateNoteEl = document.querySelector('.gate-note');
+
+    if (urlParams.get('submitted') === '1'){
+      // back from FormSubmit — show the confirmation instead of the sales pitch
+      gateTitleEl.innerHTML = 'Request<span>Received</span>';
+      gateNoteEl.textContent = 'Your request is under review. Confirmation will follow by separate message. Do not contact the committee; the committee will contact you.';
+      gateBtn.textContent = 'Return to the Grounds';
+      ticketCardEl.style.display = 'none';
+      document.getElementById('confirmedPanel').style.display = 'block';
+      try { history.replaceState(null, '', location.pathname); } catch (e) {} // clean the URL so refresh resets
+    } else if (siteState === 'after'){
+      gateTitleEl.innerHTML = 'This Invitation<span>Has Expired</span>';
+      gateNoteEl.textContent = 'The charter has been executed. The committee is dissolved. The records are sealed.';
+      gateBtn.textContent = 'Enter the Archive';
+      timerEl.style.display = 'none';
+      bannerTextEl.textContent = 'This offer concluded on August 1, 2026. Permanently.';
+      claimBtn.disabled = true;
+      claimBtn.textContent = 'Offer Expired';
+    } else {
+      if (siteState === 'party'){
+        gateNoteEl.textContent = 'The doors are open. The evening is in session. Why are you reading this?';
+        gateBtn.textContent = 'Enter Anyway';
+      }
+      startTimer();
+    }
   </script>
 
 </body>
