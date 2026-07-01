@@ -4,11 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Late Housewarming / Early Farewell</title>
+<meta name="description" content="You have found this. One evening only — August 1, 2026, Austin, TX. Entry by invitation.">
 <meta name="theme-color" content="#08070D">
+<meta property="og:title" content="Late Housewarming / Early Farewell">
+<meta property="og:description" content="An exclusive soirée, convened once, for those who have found this. August 1, 2026 — Chateau Dreux, Austin, TX.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://images.unsplash.com/photo-1659633874076-82f57ba8b486?fm=jpg&q=72&w=1200&auto=format&fit=crop">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84'%3E%3Crect width='84' height='84' fill='%2308070D'/%3E%3Ccircle cx='42' cy='42' r='34' fill='none' stroke='%23ECEAF2' stroke-opacity='0.5' stroke-width='2'/%3E%3Cpath d='M42 16 L68 42 L42 68 L16 42 Z' fill='none' stroke='%23FF2EC4' stroke-width='2.5'/%3E%3Ccircle cx='42' cy='42' r='5' fill='none' stroke='%234DFF6E' stroke-width='2.5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1659633874076-82f57ba8b486?fm=jpg&q=75&w=2200&auto=format&fit=crop">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#08070D;
@@ -16,12 +23,14 @@
     --green:#4DFF6E;
     --fuchsia:#FF2EC4;
     --red:#FF4D5E;
+    --violet:#7A2BD9;
     --ink:#ECEAF2;
     --dim:#938EAD;
     --line:rgba(228,226,240,0.12);
-    --img-room:url('https://images.unsplash.com/photo-1691397392679-a2f12aa9fecb?fm=jpg&q=72&w=2000&auto=format&fit=crop');
-    --img-pool:url('https://images.unsplash.com/photo-1723579377005-2c1f5c0e6a5a?fm=jpg&q=72&w=2000&auto=format&fit=crop');
-    --img-neon:url('https://images.unsplash.com/photo-1686121279184-e5f2c67bdd63?fm=jpg&q=72&w=2000&auto=format&fit=crop');
+    --img-manor:url('https://images.unsplash.com/photo-1659633874076-82f57ba8b486?fm=jpg&q=75&w=2200&auto=format&fit=crop');
+    --img-stair:url('https://images.unsplash.com/photo-1689758367656-8a57cc84f53e?fm=jpg&q=70&w=1100&auto=format&fit=crop');
+    --img-crowd:url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?fm=jpg&q=72&w=2000&auto=format&fit=crop');
+    --img-pool:url('https://images.unsplash.com/photo-1533030265665-8a0445a83c61?fm=jpg&q=72&w=2000&auto=format&fit=crop');
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
@@ -38,6 +47,60 @@
   }
 
   .mono{ font-family:'Space Mono', monospace; }
+  .display{ font-family:'Fraunces', 'EB Garamond', serif; }
+  h2 em, h1 em{ font-style:italic; font-weight:500; }
+
+  ::selection{ background:var(--fuchsia); color:#08070D; }
+  :focus-visible{ outline:2px solid var(--green); outline-offset:3px; }
+
+  ::-webkit-scrollbar{ width:11px; }
+  ::-webkit-scrollbar-track{ background:var(--bg); }
+  ::-webkit-scrollbar-thumb{ background:#241f33; border:3px solid var(--bg); border-radius:6px; }
+  ::-webkit-scrollbar-thumb:hover{ background:#372f4d; }
+
+  /* ============ ATMOSPHERE LAYERS ============ */
+  .grain{
+    position:fixed; inset:-100px;
+    z-index:350;
+    pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    opacity:0.055;
+    animation:grainShift 0.9s steps(4) infinite;
+  }
+  @keyframes grainShift{
+    0%{ transform:translate(0,0); }
+    25%{ transform:translate(-38px,22px); }
+    50%{ transform:translate(24px,-30px); }
+    75%{ transform:translate(-14px,-18px); }
+    100%{ transform:translate(0,0); }
+  }
+  .vignette{
+    position:fixed; inset:0;
+    /* canvas is a replaced element: inset alone doesn't stretch it,
+       so the CSS size must be pinned or high-DPI screens draw off-target */
+    width:100%; height:100%;
+    z-index:90;
+    pointer-events:none;
+    background:radial-gradient(ellipse 105% 90% at 50% 45%, transparent 62%, rgba(4,3,8,0.5) 100%);
+  }
+  .progress{
+    position:fixed; top:0; left:0;
+    height:2px; width:0;
+    z-index:340;
+    background:linear-gradient(90deg, var(--fuchsia), var(--violet), var(--green));
+    box-shadow:0 0 10px rgba(255,46,196,0.55);
+    pointer-events:none;
+  }
+
+  /* confetti canvas — physics burst, sits above everything but the grain */
+  #confettiCanvas{
+    position:fixed; inset:0;
+    /* canvas is a replaced element: inset alone doesn't stretch it,
+       so the CSS size must be pinned or high-DPI screens draw off-target */
+    width:100%; height:100%;
+    z-index:320;
+    pointer-events:none;
+  }
 
   /* ============ ENTER GATE ============ */
   .gate{
@@ -46,44 +109,56 @@
     z-index:300;
     background:var(--bg);
     background-image:
-      radial-gradient(ellipse 60% 50% at 50% 38%, rgba(122,43,217,0.16), transparent 70%),
-      var(--img-room);
+      radial-gradient(ellipse 60% 50% at 50% 38%, rgba(122,43,217,0.18), transparent 70%),
+      var(--img-manor);
     background-size:cover;
-    background-position:center;
+    background-position:center 68%;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
     padding:32px;
-    transition:opacity 0.8s ease, visibility 0.8s ease;
+    transition:opacity 1s ease, visibility 1s ease;
   }
   .gate::before{
     content:"";
     position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(8,7,13,0.82), rgba(8,7,13,0.9));
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 42%, transparent 20%, rgba(8,7,13,0.55) 100%),
+      linear-gradient(180deg, rgba(8,7,13,0.86), rgba(8,7,13,0.9));
   }
   .gate.hidden{ opacity:0; visibility:hidden; }
   .gate-inner{
     position:relative;
     z-index:1;
     max-width:560px;
-    animation:gateIn 1.2s ease forwards;
+    animation:gateIn 1.4s cubic-bezier(0.22,1,0.36,1) forwards;
   }
-  @keyframes gateIn{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
-  .gate-sigil{ width:72px; height:72px; margin:0 auto 30px; }
-  .gate-sigil svg{ width:100%; height:100%; }
+  @keyframes gateIn{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+  .gate-sigil{ width:76px; height:76px; margin:0 auto 30px; position:relative; }
+  .gate-sigil svg{ width:100%; height:100%; overflow:visible; }
+  .gate-sigil .ring{ transform-origin:center; animation:sigilSpin 32s linear infinite; }
+  .gate-sigil .core{ animation:sigilPulse 3.2s ease-in-out infinite; }
+  @keyframes sigilSpin{ to{ transform:rotate(360deg); } }
+  @keyframes sigilPulse{ 0%,100%{ opacity:0.85; } 50%{ opacity:0.35; } }
   .gate-kicker{ justify-content:center; margin-bottom:26px; }
   .gate-title{
-    font-family:'Cinzel', serif;
-    font-weight:800;
+    font-family:'Fraunces', serif;
+    font-weight:650;
     text-transform:uppercase;
-    line-height:0.98;
-    font-size:clamp(30px, 6vw, 54px);
+    letter-spacing:0.01em;
+    line-height:1.0;
+    font-size:clamp(30px, 6vw, 56px);
     color:var(--ink);
   }
   .gate-title span{
     display:block;
-    font-size:0.62em;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:480;
+    text-transform:none;
+    letter-spacing:0;
+    font-size:0.74em;
     color:transparent;
     -webkit-text-stroke:1px var(--green);
     text-shadow:0 0 22px rgba(77,255,110,0.4);
@@ -99,19 +174,30 @@
   }
   .gate-btn{
     margin-top:38px;
+    position:relative;
+    overflow:hidden;
     background:var(--fuchsia);
     border:1px solid var(--fuchsia);
     color:#08070D;
-    font-family:'Cinzel', serif;
+    font-family:'Space Mono', monospace;
     font-weight:700;
-    font-size:13px;
-    letter-spacing:0.24em;
+    font-size:12px;
+    letter-spacing:0.32em;
     text-transform:uppercase;
     padding:18px 56px;
     cursor:pointer;
-    transition:transform 0.2s ease, box-shadow 0.3s ease;
+    transition:transform 0.25s ease, box-shadow 0.35s ease, letter-spacing 0.35s ease;
   }
-  .gate-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 36px rgba(255,46,196,0.45); }
+  .gate-btn::after{
+    content:"";
+    position:absolute; top:0; bottom:0; left:-80%;
+    width:40%;
+    background:linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+    transform:skewX(-20deg);
+    animation:btnSheen 3.4s ease-in-out infinite;
+  }
+  @keyframes btnSheen{ 0%, 60%{ left:-80%; } 100%{ left:160%; } }
+  .gate-btn:hover{ transform:translateY(-2px); letter-spacing:0.3em; box-shadow:0 12px 40px rgba(255,46,196,0.5); }
   .gate-sub{
     margin-top:20px;
     font-family:'Space Mono', monospace;
@@ -120,8 +206,9 @@
     text-transform:uppercase;
     color:var(--dim);
   }
+  .gate-sub .no{ color:var(--fuchsia); }
 
-  /* sound toggle */
+  /* sound toggle — tiny equalizer */
   .sound-toggle{
     position:fixed;
     bottom:22px; right:22px;
@@ -131,20 +218,33 @@
     border:1px solid var(--line);
     background:rgba(8,7,13,0.7);
     backdrop-filter:blur(6px);
-    color:var(--ink);
-    font-size:17px;
     cursor:pointer;
-    transition:border-color 0.3s ease, color 0.3s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:border-color 0.3s ease;
   }
-  .sound-toggle:hover{ border-color:var(--fuchsia); color:var(--fuchsia); }
-  .sound-toggle.muted{ color:var(--dim); }
-  .display{ font-family:'Cinzel', serif; }
+  .sound-toggle:hover{ border-color:var(--fuchsia); }
+  .eq{ display:flex; align-items:flex-end; gap:2.5px; height:14px; }
+  .eq i{
+    display:block;
+    width:2.5px; height:100%;
+    background:var(--green);
+    transform-origin:bottom;
+    animation:eqBar 0.9s ease-in-out infinite;
+  }
+  .eq i:nth-child(1){ animation-delay:0s; }
+  .eq i:nth-child(2){ animation-delay:0.22s; animation-duration:0.7s; }
+  .eq i:nth-child(3){ animation-delay:0.1s; animation-duration:1.05s; }
+  .eq i:nth-child(4){ animation-delay:0.34s; animation-duration:0.8s; }
+  @keyframes eqBar{ 0%,100%{ transform:scaleY(0.25); } 50%{ transform:scaleY(1); } }
+  .sound-toggle.muted .eq i{ animation-play-state:paused; transform:scaleY(0.18); background:var(--dim); }
 
   /* shared eyebrow */
   .eyebrow{
-    font-family:'Cinzel', serif;
-    font-size:11px;
-    letter-spacing:0.36em;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.32em;
     text-transform:uppercase;
     color:var(--fuchsia);
     display:inline-flex;
@@ -158,7 +258,24 @@
     opacity:0.6;
   }
 
-  .reveal{ transition:opacity 0.9s ease, transform 0.9s ease; }
+  .reveal{ transition:opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1); }
+  .reveal-item{ transition:opacity 0.85s cubic-bezier(0.22,1,0.36,1), transform 0.85s cubic-bezier(0.22,1,0.36,1); }
+
+  /* redacted text — declassifies on hover */
+  .redact{
+    background:#28223A;
+    color:transparent;
+    padding:0 7px;
+    cursor:help;
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone;
+    transition:background 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
+  }
+  .redact:hover{
+    background:transparent;
+    color:var(--green);
+    text-shadow:0 0 14px rgba(77,255,110,0.5);
+  }
 
   /* ============ HERO ============ */
   .hero{
@@ -171,26 +288,28 @@
   }
   .hero-bg{
     position:absolute;
-    inset:0;
-    background-image:var(--img-room);
+    inset:-12vh 0;
+    background-image:var(--img-manor);
     background-size:cover;
-    background-position:center;
+    background-position:center 68%;
     transform:scale(1.08);
     opacity:0;
-    animation:heroZoom 8s ease forwards;
+    animation:heroZoom 8s cubic-bezier(0.22,1,0.36,1) forwards;
     z-index:0;
+    will-change:transform;
   }
   @keyframes heroZoom{
     0%{ opacity:0; transform:scale(1.14); }
-    100%{ opacity:0.55; transform:scale(1.02); }
+    100%{ opacity:0.62; transform:scale(1.02); }
   }
   .hero-veil{
     position:absolute;
     inset:0;
     z-index:1;
     background:
-      linear-gradient(180deg, rgba(8,7,13,0.55) 0%, rgba(8,7,13,0.2) 35%, rgba(8,7,13,0.85) 80%, var(--bg) 100%),
-      linear-gradient(90deg, rgba(8,7,13,0.7) 0%, transparent 55%);
+      radial-gradient(ellipse 60% 45% at 68% 30%, rgba(122,43,217,0.14), transparent 70%),
+      linear-gradient(180deg, rgba(8,7,13,0.55) 0%, rgba(8,7,13,0.18) 35%, rgba(8,7,13,0.85) 80%, var(--bg) 100%),
+      linear-gradient(90deg, rgba(8,7,13,0.72) 0%, transparent 55%);
   }
   .hero-inner{
     position:relative;
@@ -206,29 +325,32 @@
     animation:fadeUp 1s ease forwards 1.1s;
   }
   .hero-title{
-    font-family:'Cinzel', serif;
-    font-weight:800;
-    line-height:0.92;
+    font-family:'Fraunces', serif;
+    font-weight:640;
+    line-height:0.96;
     letter-spacing:-0.01em;
-    text-transform:uppercase;
   }
   .hero-title .l1{
     display:block;
-    font-size:clamp(38px, 9.2vw, 132px);
+    text-transform:uppercase;
+    letter-spacing:0;
+    font-size:clamp(36px, 8.6vw, 124px);
     color:var(--ink);
     opacity:0;
-    animation:fadeUp 1.1s ease forwards 1.3s;
+    animation:fadeUp 1.1s cubic-bezier(0.22,1,0.36,1) forwards 1.3s;
   }
   .hero-title .l2{
     display:block;
-    font-size:clamp(28px, 6.6vw, 96px);
-    margin-left:clamp(16px, 12vw, 200px);
+    font-style:italic;
+    font-weight:460;
+    font-size:clamp(30px, 7.2vw, 104px);
+    text-align:right;
+    padding-right:0.1em;
     color:transparent;
-    -webkit-text-stroke:1.4px var(--green);
-    text-stroke:1.4px var(--green);
+    -webkit-text-stroke:1.3px var(--green);
     text-shadow:0 0 30px rgba(77,255,110,0.35);
     opacity:0;
-    animation:fadeUp 1.1s ease forwards 1.55s;
+    animation:fadeUp 1.1s cubic-bezier(0.22,1,0.36,1) forwards 1.55s;
   }
   .hero-meta{
     margin-top:42px;
@@ -240,8 +362,8 @@
     animation:fadeUp 1s ease forwards 1.85s;
   }
   .hero-meta .when{
-    font-family:'Cinzel', serif;
-    font-size:13px;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
     letter-spacing:0.24em;
     text-transform:uppercase;
     color:var(--ink);
@@ -251,6 +373,29 @@
     color:var(--dim);
     font-size:16px;
     max-width:420px;
+  }
+  .t-minus{
+    margin-top:22px;
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.22em;
+    color:var(--green);
+    border:1px solid rgba(77,255,110,0.25);
+    background:rgba(77,255,110,0.04);
+    padding:10px 18px;
+    opacity:0;
+    animation:fadeUp 1s ease forwards 2.05s;
+  }
+  .t-minus::before{
+    content:"";
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+    animation:sigilPulse 1.6s ease-in-out infinite;
   }
   .scroll-cue{
     position:absolute;
@@ -262,12 +407,49 @@
     color:var(--dim);
     writing-mode:vertical-rl;
     opacity:0;
-    animation:fadeUp 1s ease forwards 2.1s;
+    animation:fadeUp 1s ease forwards 2.3s;
   }
 
   @keyframes fadeUp{
     from{ opacity:0; transform:translateY(18px); }
     to{ opacity:1; transform:translateY(0); }
+  }
+
+  /* ============ TICKER ============ */
+  .ticker{
+    position:relative;
+    z-index:2;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:rgba(16,13,26,0.6);
+    overflow:hidden;
+    padding:13px 0;
+  }
+  .ticker-track{
+    display:flex;
+    width:max-content;
+    animation:tickerScroll 52s linear infinite;
+  }
+  .ticker:hover .ticker-track{ animation-play-state:paused; }
+  @keyframes tickerScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  .ticker-set{
+    display:flex;
+    flex-shrink:0;
+    white-space:nowrap;
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.24em;
+    text-transform:uppercase;
+    color:var(--dim);
+  }
+  .ticker-set span{ padding:0 28px; }
+  .ticker-set span::after{
+    content:"\25C6";
+    color:var(--fuchsia);
+    font-size:7px;
+    vertical-align:2px;
+    margin-left:56px;
+    opacity:0.7;
   }
 
   /* ============ generic editorial section frame ============ */
@@ -279,7 +461,7 @@
     padding:14vh 6vw;
   }
 
-  /* DOSSIER — offset two-column, text pushed right, big margin note left */
+  /* DOSSIER — offset two-column, exhibit photo in the sticky aside */
   .dossier{
     display:grid;
     grid-template-columns:minmax(0, 0.7fr) minmax(0, 1.3fr);
@@ -288,18 +470,46 @@
   }
   .dossier .aside{
     position:sticky;
-    top:14vh;
+    top:10vh;
   }
   .dossier .aside h2{
-    font-family:'Cinzel', serif;
-    font-weight:700;
-    font-size:clamp(30px, 4vw, 56px);
-    line-height:1.0;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(32px, 4.4vw, 62px);
+    line-height:1.02;
+    letter-spacing:-0.015em;
     margin-top:22px;
     color:var(--ink);
   }
+  .dossier .aside h2 em{ color:var(--fuchsia); -webkit-text-stroke:0; }
+  .exhibit{
+    margin-top:30px;
+    max-width:300px;
+    border:1px solid var(--line);
+    padding:10px 10px 12px;
+    background:linear-gradient(170deg, rgba(255,255,255,0.025), transparent);
+    transform:rotate(-1.2deg);
+    transition:transform 0.5s cubic-bezier(0.22,1,0.36,1), border-color 0.5s ease;
+  }
+  .exhibit:hover{ transform:rotate(0deg) translateY(-3px); border-color:rgba(255,46,196,0.35); }
+  .exhibit img{
+    display:block;
+    width:100%;
+    aspect-ratio:3/4;
+    object-fit:cover;
+    filter:saturate(0.72) contrast(1.06) brightness(0.92);
+  }
+  .exhibit figcaption{
+    margin-top:10px;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.06em;
+    line-height:1.7;
+    color:var(--dim);
+  }
+  .exhibit figcaption b{ color:var(--fuchsia); font-weight:400; }
   .dossier .aside .marker{
-    margin-top:26px;
+    margin-top:22px;
     font-family:'Space Mono', monospace;
     font-size:11px;
     letter-spacing:0.06em;
@@ -307,7 +517,7 @@
     line-height:1.9;
     border-top:1px solid var(--line);
     padding-top:18px;
-    max-width:230px;
+    max-width:300px;
   }
   .dossier .body p{
     font-size:clamp(17px, 1.5vw, 21px);
@@ -316,12 +526,12 @@
     color:var(--ink);
   }
   .dossier .body p:first-child::first-letter{
-    font-family:'Cinzel', serif;
-    font-weight:700;
+    font-family:'Fraunces', serif;
+    font-weight:620;
     float:left;
-    font-size:4.4em;
-    line-height:0.72;
-    padding:6px 14px 0 0;
+    font-size:4.6em;
+    line-height:0.78;
+    padding:4px 16px 0 0;
     color:var(--fuchsia);
   }
   .dossier .body p.coda{
@@ -329,6 +539,20 @@
     color:var(--dim);
     border-left:2px solid var(--green);
     padding-left:22px;
+  }
+  .stamp{
+    display:inline-block;
+    margin-top:14px;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--red);
+    border:1.5px solid var(--red);
+    padding:8px 16px;
+    transform:rotate(-3deg);
+    opacity:0.75;
+    user-select:none;
   }
 
   /* PROGRAM — full-bleed image strip with the list overlapping it */
@@ -339,19 +563,20 @@
   }
   .program-banner{
     position:relative;
-    height:46vh;
-    min-height:320px;
+    height:52vh;
+    min-height:340px;
     margin-bottom:-9vh;
-    background-image:var(--img-neon);
+    background-image:var(--img-crowd);
     background-size:cover;
-    background-position:center 38%;
+    background-position:center 30%;
+    background-attachment:fixed;
     display:flex;
     align-items:center;
   }
   .program-banner::after{
     content:"";
     position:absolute; inset:0;
-    background:linear-gradient(180deg, var(--bg) 0%, rgba(8,7,13,0.35) 30%, rgba(8,7,13,0.55) 60%, var(--bg) 100%);
+    background:linear-gradient(180deg, var(--bg) 0%, rgba(8,7,13,0.3) 30%, rgba(8,7,13,0.5) 60%, var(--bg) 100%);
   }
   .program-banner .banner-label{
     position:relative;
@@ -362,14 +587,13 @@
     padding:0 6vw;
   }
   .program-banner h2{
-    font-family:'Cinzel', serif;
-    font-weight:800;
-    text-transform:uppercase;
-    font-size:clamp(40px, 9vw, 128px);
-    line-height:0.9;
+    font-family:'Fraunces', serif;
+    font-weight:620;
+    font-size:clamp(44px, 9.6vw, 140px);
+    line-height:0.92;
     color:var(--ink);
     mix-blend-mode:screen;
-    letter-spacing:-0.01em;
+    letter-spacing:-0.02em;
   }
   .program-inner{
     position:relative;
@@ -387,23 +611,39 @@
     align-items:baseline;
     padding:22px 0;
     border-bottom:1px solid var(--line);
-    transition:padding-left 0.35s ease, background 0.35s ease;
+    transition:padding-left 0.35s cubic-bezier(0.22,1,0.36,1), background 0.35s ease;
+    position:relative;
   }
   .prog-row:first-child{ border-top:1px solid var(--line); }
+  .prog-row::before{
+    content:"\2192";
+    position:absolute;
+    left:-6px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--fuchsia);
+    opacity:0;
+    transition:opacity 0.35s ease, left 0.35s cubic-bezier(0.22,1,0.36,1);
+    font-family:'Space Mono', monospace;
+    font-size:14px;
+  }
   .prog-row:hover{
-    padding-left:18px;
+    padding-left:34px;
     background:linear-gradient(90deg, rgba(255,46,196,0.05), transparent);
   }
+  .prog-row:hover::before{ opacity:1; left:8px; }
   .prog-num{
     font-family:'Space Mono', monospace;
     font-size:13px;
     color:var(--fuchsia);
   }
   .prog-name{
-    font-family:'Cinzel', serif;
-    font-size:clamp(19px, 2.3vw, 30px);
+    font-family:'Fraunces', serif;
+    font-weight:530;
+    font-size:clamp(20px, 2.4vw, 32px);
     color:var(--ink);
     line-height:1.15;
+    letter-spacing:-0.01em;
   }
   .prog-detail{
     font-style:italic;
@@ -411,6 +651,16 @@
     font-size:14px;
     text-align:right;
     max-width:300px;
+  }
+  .prog-fine{
+    margin-top:22px;
+    text-align:right;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--dim);
+    opacity:0.7;
   }
 
   /* GUESTS — asymmetric: heading offset far left, cards staggered right */
@@ -420,11 +670,11 @@
     max-width:560px;
   }
   .guests-head h2{
-    font-family:'Cinzel', serif;
-    font-weight:800;
-    text-transform:uppercase;
-    font-size:clamp(36px, 7vw, 96px);
-    line-height:0.92;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(40px, 7.6vw, 106px);
+    line-height:0.95;
+    letter-spacing:-0.015em;
     margin-top:20px;
     color:transparent;
     -webkit-text-stroke:1.2px var(--fuchsia);
@@ -440,7 +690,25 @@
     background:linear-gradient(160deg, rgba(255,255,255,0.02), transparent);
     padding:26px 26px 30px;
     position:relative;
+    transition:border-color 0.4s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease;
   }
+  /* dossier corner ticks */
+  .guest::before, .guest::after{
+    content:"";
+    position:absolute;
+    width:9px; height:9px;
+    border-color:rgba(255,46,196,0.55);
+    border-style:solid;
+    opacity:0;
+    transition:opacity 0.4s ease;
+  }
+  .guest::before{ top:6px; left:6px; border-width:1px 0 0 1px; }
+  .guest::after{ bottom:6px; right:6px; border-width:0 1px 1px 0; }
+  .guest:hover{
+    border-color:rgba(228,226,240,0.3);
+    box-shadow:0 18px 44px rgba(0,0,0,0.45);
+  }
+  .guest:hover::before, .guest:hover::after{ opacity:1; }
   .guest .role{
     font-size:clamp(18px, 1.8vw, 23px);
     line-height:1.35;
@@ -455,24 +723,41 @@
     color:var(--dim);
   }
   .guest.named .role{
-    font-family:'Cinzel', serif;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.02em;
+    font-family:'Fraunces', serif;
+    font-weight:640;
+    font-size:clamp(22px, 2.2vw, 28px);
+    letter-spacing:-0.01em;
   }
-  /* staggered spans + offsets for broken-grid feel */
+  .guest.expunged .role{
+    font-family:'Space Mono', monospace;
+    font-size:clamp(15px, 1.4vw, 18px);
+    letter-spacing:0.1em;
+    color:var(--dim);
+  }
+  .guest.expunged .role .bar{
+    display:inline-block;
+    background:#28223A;
+    color:transparent;
+    padding:0 4px;
+    user-select:none;
+  }
+  /* staggered spans + offsets for broken-grid feel —
+     margin-top participates in row sizing, so cards can never collide */
   .g1{ grid-column:1 / span 7; }
-  .g2{ grid-column:8 / span 5; transform:translateY(34px); }
+  .g2{ grid-column:8 / span 5; margin-top:34px; }
   .g3{ grid-column:2 / span 5; }
-  .g4{ grid-column:7 / span 4; transform:translateY(-10px); }
+  .g4{ grid-column:7 / span 4; margin-top:-8px; }
   .g5{ grid-column:1 / span 3; }
-  .g6{ grid-column:4 / span 3; transform:translateY(22px); }
+  .g6{ grid-column:4 / span 3; margin-top:22px; }
   .g7{ grid-column:8 / span 5; }
+  .g8{ grid-column:3 / span 7; margin-top:30px; }
+  .guest:hover{ transform:translateY(-4px); }
   .guest.cta{
     border-color:rgba(77,255,110,0.4);
     background:linear-gradient(160deg, rgba(77,255,110,0.06), transparent);
   }
-  .guest.cta .role{ color:var(--green); font-family:'Cinzel', serif; font-weight:700; text-transform:uppercase; }
+  .guest.cta .role{ color:var(--green); font-family:'Fraunces', serif; font-style:italic; font-weight:560; font-size:clamp(22px, 2.2vw, 28px); }
+  .guest.cta::before, .guest.cta::after{ border-color:rgba(77,255,110,0.6); }
 
   /* ADMISSION — full-bleed pool image, ticket floats over it offset */
   .admission{
@@ -491,7 +776,7 @@
   .admission-bg::after{
     content:"";
     position:absolute; inset:0;
-    background:linear-gradient(180deg, var(--bg) 0%, rgba(8,7,13,0.62) 26%, rgba(8,7,13,0.72) 72%, var(--bg) 100%);
+    background:linear-gradient(180deg, var(--bg) 0%, rgba(8,7,13,0.58) 26%, rgba(8,7,13,0.68) 72%, var(--bg) 100%);
   }
   .admission-inner{
     position:relative;
@@ -505,14 +790,15 @@
     align-items:center;
   }
   .admission-lead h2{
-    font-family:'Cinzel', serif;
-    font-weight:800;
-    text-transform:uppercase;
-    font-size:clamp(34px, 6vw, 86px);
-    line-height:0.9;
+    font-family:'Fraunces', serif;
+    font-weight:620;
+    font-size:clamp(36px, 6.2vw, 92px);
+    line-height:0.94;
+    letter-spacing:-0.015em;
     margin-top:20px;
     color:var(--ink);
   }
+  .admission-lead h2 em{ color:var(--green); text-shadow:0 0 26px rgba(77,255,110,0.35); }
   .admission-lead p{
     margin-top:24px;
     font-style:italic;
@@ -521,19 +807,24 @@
     max-width:360px;
   }
 
+  .ticket-wrap{ perspective:1100px; }
   .ticket-card{
     border:1px solid var(--line);
-    background:rgba(8,7,13,0.78);
-    backdrop-filter:blur(6px);
-    padding:42px 36px;
+    background:rgba(8,7,13,0.8);
+    backdrop-filter:blur(8px);
+    padding:42px 36px 30px;
     text-align:center;
     position:relative;
+    transition:transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;
+    transform-style:preserve-3d;
+    box-shadow:0 30px 70px rgba(0,0,0,0.5);
   }
   .buy-now-tag{
     display:inline-block;
     background:var(--red);
     color:#08070D;
-    font-family:'Cinzel', serif;
+    font-family:'Space Mono', monospace;
+    font-weight:700;
     font-size:10px;
     letter-spacing:0.2em;
     text-transform:uppercase;
@@ -543,9 +834,9 @@
   }
   @keyframes badgePulse{ 0%,100%{opacity:1;} 50%{opacity:0.6;} }
   .ticket-label{
-    font-family:'Cinzel', serif;
-    font-size:11px;
-    letter-spacing:0.28em;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.3em;
     text-transform:uppercase;
     color:var(--dim);
     margin-bottom:16px;
@@ -560,12 +851,15 @@
     text-decoration-color:var(--green);
     text-decoration-thickness:3px;
     opacity:0.42;
+    transition:opacity 0.5s ease, font-size 0.5s ease;
   }
   .ticket-price .free{
     color:var(--green);
     margin-left:14px;
     text-shadow:0 0 18px rgba(77,255,110,0.5);
   }
+  .ticket-price.claimed .amount{ display:none; }
+  .ticket-price.claimed .free{ margin-left:0; }
   .ticket-fine{
     margin-top:10px;
     font-size:12px;
@@ -588,7 +882,7 @@
   .countdown-timer.frantic-2{ color:var(--red); font-weight:700; animation:pulse 0.22s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.22);} }
   @keyframes bannerShake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-2px);} 75%{transform:translateX(2px);} }
-  @keyframes flashReset{ 0%{background:rgba(255,46,196,0.25);} 100%{background:rgba(8,7,13,0.78);} }
+  @keyframes flashReset{ 0%{background:rgba(255,46,196,0.25);} 100%{background:rgba(8,7,13,0.8);} }
   .ticket-card.flash{ animation:flashReset 0.5s ease; }
 
   .claim-btn{
@@ -597,10 +891,10 @@
     background:var(--fuchsia);
     border:1px solid var(--fuchsia);
     color:#08070D;
-    font-family:'Cinzel', serif;
+    font-family:'Space Mono', monospace;
     font-weight:700;
-    font-size:13px;
-    letter-spacing:0.16em;
+    font-size:12px;
+    letter-spacing:0.2em;
     text-transform:uppercase;
     padding:17px 24px;
     cursor:pointer;
@@ -612,24 +906,44 @@
   .claim-btn:disabled{ opacity:0.5; cursor:default; }
   .claim-btn:disabled:hover{ transform:none; box-shadow:none; }
 
-  .confetti-piece{ position:fixed; top:0; left:0; width:8px; height:14px; pointer-events:none; z-index:200; }
-  @keyframes confettiFall{ 0%{ transform:translate(0,0) rotate(0); opacity:1; } 100%{ transform:translate(var(--tx),var(--ty)) rotate(var(--rot)); opacity:0; } }
+  /* ticket stub — perforation + barcode + serial */
+  .ticket-stub{
+    margin-top:26px;
+    padding-top:18px;
+    border-top:1.5px dashed rgba(228,226,240,0.22);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+  }
+  .ticket-stub .serial{
+    font-family:'Space Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--dim);
+    text-align:left;
+    line-height:1.8;
+  }
+  .ticket-stub .serial b{ color:var(--fuchsia); font-weight:400; }
+  .barcode{ opacity:0.8; flex-shrink:0; }
 
   /* RSVP appears in place of the ticket */
   #rsvpContainer{ text-align:left; }
   #rsvpContainer h3{
-    font-family:'Cinzel', serif;
-    font-weight:700;
-    font-size:24px;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:27px;
+    letter-spacing:-0.01em;
     margin-bottom:6px;
   }
   #rsvpContainer .lead{ color:var(--dim); font-style:italic; font-size:15px; margin-bottom:24px; }
   .rsvp-form{ display:flex; flex-direction:column; gap:18px; }
   .field label{
     display:block;
-    font-family:'Cinzel', serif;
-    font-size:10px;
-    letter-spacing:0.16em;
+    font-family:'Space Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:0.18em;
     text-transform:uppercase;
     color:var(--dim);
     margin-bottom:7px;
@@ -642,9 +956,9 @@
     font-family:'EB Garamond', serif;
     font-size:16px;
     padding:13px 15px;
-    transition:border-color 0.3s ease;
+    transition:border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  .field input:focus, .field textarea:focus{ outline:none; border-color:var(--green); }
+  .field input:focus, .field textarea:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(77,255,110,0.1); }
   .field textarea{ resize:vertical; min-height:84px; }
   .row-2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
   .submit-btn{
@@ -652,16 +966,16 @@
     background:transparent;
     border:1px solid var(--green);
     color:var(--green);
-    font-family:'Cinzel', serif;
+    font-family:'Space Mono', monospace;
     font-weight:700;
-    font-size:12px;
-    letter-spacing:0.16em;
+    font-size:11px;
+    letter-spacing:0.22em;
     text-transform:uppercase;
     padding:16px;
     cursor:pointer;
-    transition:background 0.3s ease, color 0.3s ease;
+    transition:background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   }
-  .submit-btn:hover{ background:var(--green); color:#08070D; }
+  .submit-btn:hover{ background:var(--green); color:#08070D; box-shadow:0 10px 30px rgba(77,255,110,0.25); }
   .form-note{ font-size:12px; color:var(--dim); font-style:italic; line-height:1.8; }
 
   /* LOGISTICS — wide spaced table, hairline rules */
@@ -680,31 +994,61 @@
   .log-cell:nth-child(odd){ border-right:1px solid var(--line); padding-left:0; }
   .log-cell:nth-child(even){ padding-left:30px; }
   .log-cell dt{
-    font-family:'Cinzel', serif;
-    font-size:11px;
-    letter-spacing:0.2em;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.24em;
     text-transform:uppercase;
     color:var(--fuchsia);
     margin-bottom:12px;
   }
   .log-cell dd{ font-size:clamp(18px, 2vw, 24px); color:var(--ink); line-height:1.4; }
+  .log-cell dd a{
+    color:inherit;
+    text-decoration:none;
+    border-bottom:1px solid rgba(228,226,240,0.25);
+    transition:border-color 0.3s ease, color 0.3s ease;
+  }
+  .log-cell dd a:hover{ color:var(--green); border-color:var(--green); }
 
   footer{
     text-align:center;
-    padding:12vh 6vw 14vh;
+    padding:12vh 6vw 13vh;
     position:relative;
     z-index:2;
   }
   footer .mark{
-    font-family:'Cinzel', serif;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    font-size:clamp(20px, 3.4vw, 40px);
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:480;
+    letter-spacing:0;
+    font-size:clamp(24px, 3.8vw, 46px);
     color:transparent;
     -webkit-text-stroke:1px var(--dim);
-    line-height:1.2;
+    line-height:1.25;
   }
+  .footer-sigil{ width:44px; height:44px; margin:44px auto 0; opacity:0.65; }
+  .footer-sigil svg{ width:100%; height:100%; }
+  .footer-brand{
+    margin-top:20px;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--fuchsia);
+  }
+  .fine-print{
+    max-width:640px;
+    margin:52px auto 0;
+    font-family:'Space Mono', monospace;
+    font-size:9.5px;
+    line-height:2.1;
+    letter-spacing:0.04em;
+    color:var(--dim);
+    opacity:0.55;
+    text-transform:uppercase;
+    transition:opacity 0.6s ease;
+  }
+  .fine-print:hover{ opacity:0.9; }
 
   /* ============ RESPONSIVE ============ */
   @media (max-width:820px){
@@ -712,11 +1056,12 @@
     .band{ padding:12vh 7vw; }
     .dossier{ grid-template-columns:1fr; gap:40px; }
     .dossier .aside{ position:static; }
+    .exhibit{ max-width:260px; }
     .admission-inner{ grid-template-columns:1fr; gap:40px; padding:13vh 7vw; }
     .admission-lead p{ max-width:none; }
     .guests-grid{ display:flex; flex-direction:column; gap:14px; }
-    .guest{ transform:none !important; }
-    .program-banner{ height:34vh; margin-bottom:-6vh; }
+    .guest{ transform:none !important; margin-top:0 !important; }
+    .program-banner{ height:36vh; margin-bottom:-6vh; background-attachment:scroll; }
     .prog-row{ grid-template-columns:42px 1fr; }
     .prog-detail{ grid-column:1 / -1; text-align:left; padding-top:6px; max-width:none; }
     .hero-meta{ flex-direction:column; gap:14px; }
@@ -726,71 +1071,108 @@
     .log-grid{ grid-template-columns:1fr; }
     .log-cell:nth-child(odd){ border-right:none; }
     .log-cell:nth-child(even){ padding-left:0; }
-    .hero-title .l2{ margin-left:0; }
-    .ticket-card{ padding:32px 22px; }
+    .ticket-card{ padding:32px 22px 24px; }
+    .ticket-stub{ flex-direction:column; align-items:flex-start; }
   }
 
   @media (prefers-reduced-motion:reduce){
     *{ animation-duration:0.001s !important; transition-duration:0.001s !important; }
-    .hero-bg{ opacity:0.5; transform:none; }
+    .hero-bg{ opacity:0.6; transform:none; }
+    .grain{ animation:none; }
+    .ticker-track{ animation:none; }
+    .program-banner{ background-attachment:scroll; }
   }
 </style>
 </head>
 <body>
 
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="progress" id="progressBar" aria-hidden="true"></div>
+  <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
   <!-- ============ ENTER GATE ============ -->
   <div class="gate" id="gate">
     <div class="gate-inner">
-      <div class="gate-sigil">
-        <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="none" stroke="rgba(236,234,242,0.5)" stroke-width="0.75"/><path d="M42 14 L66 42 L42 70 L18 42 Z" fill="none" stroke="var(--fuchsia)" stroke-width="0.9"/><circle cx="42" cy="42" r="4" fill="none" stroke="var(--fuchsia)" stroke-width="0.9"/></svg>
+      <div class="gate-sigil" aria-hidden="true">
+        <svg viewBox="0 0 84 84">
+          <g class="ring"><circle cx="42" cy="42" r="40" fill="none" stroke="rgba(236,234,242,0.5)" stroke-width="0.75" stroke-dasharray="4 7"/></g>
+          <path d="M42 14 L66 42 L42 70 L18 42 Z" fill="none" stroke="var(--fuchsia)" stroke-width="0.9"/>
+          <circle class="core" cx="42" cy="42" r="4" fill="none" stroke="var(--green)" stroke-width="0.9"/>
+        </svg>
       </div>
       <div class="gate-kicker eyebrow">Chateau Dreux</div>
       <h1 class="gate-title">Late Housewarming<span>Early Farewell</span></h1>
-      <p class="gate-note">You have found this. Entry is by invitation, and the evening has already begun within.</p>
+      <p class="gate-note">Congrats! You have been selected. Entry by invitation only. Escorts permitted begrudgingly.</p>
       <button class="gate-btn" id="gateBtn">Enter</button>
-      <div class="gate-sub">Best experienced with sound</div>
+      <div class="gate-sub">Invitation <span class="no mono" id="inviteNo">N&ordm; 000</span> &middot; Best experienced with sound</div>
     </div>
   </div>
 
-  <!-- background audio: drop your own file in as audio/bg.mp3 (or change the src) -->
   <audio id="bgAudio" loop preload="auto">
-    <source src="audio/bg.mp3" type="audio/mpeg">
+    <source src="bg.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="tadaAudio" preload="auto">
+    <source src="tada.mp3" type="audio/mpeg">
   </audio>
 
   <!-- sound toggle, shown once inside -->
-  <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound" style="display:none;">
-    <span id="soundIcon">&#9835;</span>
+  <button class="sound-toggle muted" id="soundToggle" aria-label="Toggle sound" style="display:none;">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
   </button>
 
   <!-- ============ HERO ============ -->
   <header class="hero">
-    <div class="hero-bg"></div>
+    <div class="hero-bg" id="heroBg"></div>
     <div class="hero-veil"></div>
     <div class="hero-inner">
       <div class="hero-kicker"><span class="eyebrow">Chateau Dreux &middot; By Invitation Only</span></div>
       <h1 class="hero-title">
-        <span class="l1">Late Housewarming</span>
+        <span class="l1">Late Housewarming,</span>
         <span class="l2">Early Farewell</span>
       </h1>
       <div class="hero-meta">
         <span class="when">August 1, 2026 &middot; Doors at 3:00 PM</span>
         <span class="sub">An exclusive soir&eacute;e and networking social, convened once, for those who have found this.</span>
       </div>
+      <div class="t-minus" id="tMinus">CONVENES IN &mdash;</div>
     </div>
     <div class="scroll-cue">SCROLL</div>
   </header>
 
+  <!-- ============ TICKER ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="tickerTrack">
+      <div class="ticker-set">
+        <span>The committee has been notified</span>
+        <span>Attendance will be noted, favorably</span>
+        <span>The pool has been briefed</span>
+        <span>Moby is unaware of the program</span>
+        <span>Dress code loosely enforced</span>
+        <span>The cats have approved this message</span>
+        <span>Departure is inevitable &mdash; punctuality is not</span>
+        <span>No photography, except flattering</span>
+        <span>This ticker contains no announcements</span>
+      </div>
+    </div>
+  </div>
+
   <!-- ============ DOSSIER ============ -->
   <section class="band dossier reveal">
     <div class="aside">
-      <span class="eyebrow">On This Gathering</span>
-      <h2>A Closing<br>Chapter</h2>
+      <span class="eyebrow">&sect;01 &middot; On This Gathering</span>
+      <h2>A Closing<br><em>Chapter</em></h2>
+      <figure class="exhibit">
+        <img src="https://images.unsplash.com/photo-1689758367656-8a57cc84f53e?fm=jpg&q=70&w=900&auto=format&fit=crop" alt="A dark staircase lined with old portraits" loading="lazy">
+        <figcaption><b>Fig. 1</b> &mdash; The west stair, as documented. Portraits unrelated. Probably.</figcaption>
+      </figure>
       <div class="marker">Est. February 2025. Occupancy: two cats and one man. Ceremony: none, until now.</div>
+      <div class="stamp">Cleared for release</div>
     </div>
     <div class="body">
       <p>Membership in this gathering is not extended lightly. The residence in question &mdash; known to its keeper as Chateau Dreux &mdash; has stood, by design, outside public record since February of 2025, observed by few, documented by fewer, properly welcomed by no one at all.</p>
       <p>That omission concludes on the evening of August 1st, when the doors are opened in full, for the first and, by charter, only time. What has been withheld will be revealed. What has been private will, briefly, be shared.</p>
-      <p>The keeper of the residence departs for the Pacific within the year, and what remains of his tenure will close exactly as it opened &mdash; door unlocked, lights low, something humming quietly in another room. Two occasions, a housewarming considerably overdue and a farewell considerably early, observed as one.</p>
+      <p>The keeper of the residence departs for <span class="redact" title="Declassified on hover">the Pacific</span> within the year, and what remains of his tenure will close exactly as it opened &mdash; door unlocked, lights low, something humming quietly in another room. Two occasions, a housewarming considerably overdue and a farewell considerably early, observed as one.</p>
       <p class="coda">Guests are advised not to dwell on which moment they are currently experiencing. It rarely helps.</p>
     </div>
   </section>
@@ -798,39 +1180,41 @@
   <!-- ============ PROGRAM ============ -->
   <section class="program reveal">
     <div class="program-banner">
-      <div class="banner-label"><h2>The<br>Program</h2></div>
+      <div class="banner-label"><h2>The<br><em>Program</em></h2></div>
     </div>
     <div class="program-inner">
-      <div class="program-eyebrow"><span class="eyebrow">Featuring</span></div>
-      <ul class="prog-list">
+      <div class="program-eyebrow"><span class="eyebrow">&sect;02 &middot; Featuring</span></div>
+      <ul class="prog-list" data-stagger>
         <li class="prog-row"><span class="prog-num">01</span><span class="prog-name">Light Beer</span><span class="prog-detail">Served continuously, selected for character rather than craft</span></li>
         <li class="prog-row"><span class="prog-num">02</span><span class="prog-name">Assorted Refreshments</span><span class="prog-detail">Modest, but plentiful</span></li>
         <li class="prog-row"><span class="prog-num">03</span><span class="prog-name">The Sounds of Moby</span><span class="prog-detail">A curated audio program</span></li>
-        <li class="prog-row"><span class="prog-num">04</span><span class="prog-name">Acid Jazz</span><span class="prog-detail">Uninterrupted, by design</span></li>
-        <li class="prog-row"><span class="prog-num">05</span><span class="prog-name">Pizza</span><span class="prog-detail">Status undetermined until the box is opened</span></li>
-        <li class="prog-row"><span class="prog-num">06</span><span class="prog-name">A Mystery Film Screening</span><span class="prog-detail">Title withheld until the projector is on</span></li>
+        <li class="prog-row"><span class="prog-num">04</span><span class="prog-name">Pizza</span><span class="prog-detail">Status undetermined until the box is opened</span></li>
+        <li class="prog-row"><span class="prog-num">05</span><span class="prog-name">A Mystery Film Screening</span><span class="prog-detail">Title withheld until the projector is on</span></li>
+        <li class="prog-row"><span class="prog-num">06</span><span class="prog-name">Acid Jazz</span><span class="prog-detail">Uninterrupted, by design</span></li>
         <li class="prog-row"><span class="prog-num">07</span><span class="prog-name">Pool Access</span><span class="prog-detail">For those inclined toward dampness</span></li>
         <li class="prog-row"><span class="prog-num">08</span><span class="prog-name">A Mandatory Playthrough of The Stanley Parable</span><span class="prog-detail">One volunteer, chosen by means undisclosed</span></li>
         <li class="prog-row"><span class="prog-num">09</span><span class="prog-name">Board Games</span><span class="prog-detail">A modest, well-loved selection</span></li>
         <li class="prog-row"><span class="prog-num">10</span><span class="prog-name">High-Speed Fiber Internet</span><span class="prog-detail">Available at a promotional rate of $49.99/hr</span></li>
       </ul>
+      <div class="prog-fine">Program subject to change without notice or apology.</div>
     </div>
   </section>
 
   <!-- ============ GUESTS ============ -->
   <section class="band guests reveal">
     <div class="guests-head">
-      <span class="eyebrow">Special Guests</span>
-      <h2>In<br>Attendance</h2>
+      <span class="eyebrow">&sect;03 &middot; Special Guests</span>
+      <h2>In<br><em>Attendance</em></h2>
     </div>
-    <div class="guests-grid">
+    <div class="guests-grid" data-stagger>
       <div class="guest g1"><div class="role">An individual who beat Super Mario 64 using only his elbows, allegedly</div><div class="tag">Claim: Unverified</div></div>
       <div class="guest g2"><div class="role">One undercover federal agent</div><div class="tag">Agency: Unconfirmed</div></div>
       <div class="guest g3"><div class="role">A clairvoyant dentist</div><div class="tag">Premonitions: Dental Only</div></div>
       <div class="guest named g4"><div class="role">Derek</div><div class="tag">Owns more than fourteen guitars</div></div>
       <div class="guest named g5"><div class="role">Marci</div><div class="tag">My cat</div></div>
       <div class="guest named g6"><div class="role">Rosie</div><div class="tag">Also my cat</div></div>
-      <div class="guest cta g7"><div class="role">You, Maybe?</div><div class="tag">RSVP below to confirm</div></div>
+      <div class="guest expunged g7"><div class="role"><span class="bar">XXXXXXXXX</span> <span class="bar">XXXXX</span></div><div class="tag">Name withheld on advice of counsel</div></div>
+      <div class="guest cta g8"><div class="role">You, Maybe?</div><div class="tag">RSVP below to confirm</div></div>
     </div>
   </section>
 
@@ -839,12 +1223,12 @@
     <div class="admission-bg"></div>
     <div class="admission-inner">
       <div class="admission-lead">
-        <span class="eyebrow">Admission</span>
-        <h2>Claim Your Entry</h2>
+        <span class="eyebrow">&sect;04 &middot; Admission</span>
+        <h2>Claim Your <em>Entry</em></h2>
         <p>Entry is, and always has been, complimentary. We simply needed you to feel something first.</p>
       </div>
 
-      <div>
+      <div class="ticket-wrap" id="ticketWrap">
         <div class="ticket-card" id="ticketCard">
           <div class="buy-now-tag">Limited Offer</div>
           <div class="ticket-label">Inner Circle Entry</div>
@@ -856,6 +1240,15 @@
             <span id="bannerText">Buy now &mdash; complimentary entry available for the next</span> <span class="countdown-timer mono" id="countdownTimer">00:30</span>
           </div>
           <button class="claim-btn" id="claimBtn">Buy Now &mdash; Claim for $0.00</button>
+          <div class="ticket-stub">
+            <div class="serial">Ser. <b id="serialNo">CD-000</b> &middot; Gate 1 of 1<br>Void where prohibited. Valid where it isn't.</div>
+            <svg class="barcode" width="120" height="34" viewBox="0 0 120 34" aria-hidden="true">
+              <g fill="#ECEAF2">
+                <rect x="0" width="3" height="28"/><rect x="5" width="1.5" height="28"/><rect x="9" width="2" height="28"/><rect x="14" width="4" height="28"/><rect x="20" width="1.5" height="28"/><rect x="24" width="2.5" height="28"/><rect x="29" width="1.5" height="28"/><rect x="33" width="3.5" height="28"/><rect x="39" width="1.5" height="28"/><rect x="43" width="2" height="28"/><rect x="48" width="4" height="28"/><rect x="54" width="1.5" height="28"/><rect x="58" width="3" height="28"/><rect x="63" width="1.5" height="28"/><rect x="67" width="2.5" height="28"/><rect x="72" width="1.5" height="28"/><rect x="76" width="4" height="28"/><rect x="82" width="2" height="28"/><rect x="87" width="1.5" height="28"/><rect x="91" width="3" height="28"/><rect x="96" width="1.5" height="28"/><rect x="100" width="2.5" height="28"/><rect x="105" width="1.5" height="28"/><rect x="109" width="4" height="28"/><rect x="115" width="2" height="28"/>
+                <text x="60" y="34" text-anchor="middle" font-family="Space Mono, monospace" font-size="6" fill="#938EAD" letter-spacing="2">0008012026</text>
+              </g>
+            </svg>
+          </div>
         </div>
 
         <div id="rsvpContainer" style="display:none;">
@@ -874,7 +1267,6 @@
             </div>
             <div class="field"><label for="message">A Message for the Order</label><textarea id="message" name="Message" placeholder="Dietary restrictions, alibis, etc."></textarea></div>
             <button type="submit" class="submit-btn">Submit for Consideration</button>
-            <div class="form-note">First submission triggers a one&#8209;time email verification from FormSubmit. Approve it once and all future RSVPs deliver automatically.</div>
           </form>
         </div>
       </div>
@@ -883,11 +1275,11 @@
 
   <!-- ============ LOGISTICS ============ -->
   <section class="band logistics reveal">
-    <span class="eyebrow">Particulars</span>
+    <span class="eyebrow">&sect;05 &middot; Particulars</span>
     <dl class="log-grid">
       <div class="log-cell"><dt>Date</dt><dd>Saturday, August 1, 2026</dd></div>
       <div class="log-cell"><dt>Time</dt><dd>Doors at 3:00 PM</dd></div>
-      <div class="log-cell"><dt>Location</dt><dd>Chateau Dreux<br><span style="font-size:0.7em; color:var(--dim);">5521 Springdale Rd, Austin, TX</span></dd></div>
+      <div class="log-cell"><dt>Location</dt><dd>Chateau Dreux<br><span style="font-size:0.7em; color:var(--dim);"><a href="https://maps.app.goo.gl/pyw87PyDgo4AG5cR8" target="_blank" rel="noopener">5521 Springdale Rd, Austin, TX</a></span></dd></div>
       <div class="log-cell"><dt>Dress</dt><dd>Club attire encouraged. Pajamas tolerated.</dd></div>
       <div class="log-cell"><dt>Correspondence</dt><dd>Further instructions delivered via air fowl.</dd></div>
       <div class="log-cell"><dt>Admittance</dt><dd>One evening only. No repeat performance.</dd></div>
@@ -896,35 +1288,72 @@
 
   <footer>
     <div class="mark">This Invitation<br>Will Not Be Repeated</div>
-    <div style="margin-top:34px; font-family:'Cinzel', serif; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--fuchsia);">Chateau Dreux</div>
+    <div class="footer-sigil" aria-hidden="true">
+      <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="none" stroke="rgba(236,234,242,0.4)" stroke-width="0.75"/><path d="M42 14 L66 42 L42 70 L18 42 Z" fill="none" stroke="var(--fuchsia)" stroke-width="0.9"/><circle cx="42" cy="42" r="4" fill="none" stroke="var(--green)" stroke-width="0.9"/></svg>
+    </div>
+    <div class="footer-brand">Chateau Dreux</div>
+    <div class="fine-print">
+      Chateau Dreux is not a legal entity, a cult, or an LLC, though all three were considered.
+      Admission was always free; the countdown was theater, and we both know it.
+      No refunds shall be issued on the purchase price of $0.00, less applicable fees of $0.00.
+      The Stanley Parable playthrough is mandatory only for the volunteer; the volunteering is mandatory for everyone.
+      The promotional internet rate was set by the market, and the market has spoken.
+      By attending you consent to appear in at least one group photograph you will later approve of.
+      Any resemblance to a secret society, living or dissolved, is aspirational.
+      Est. 2025 &mdash; dissolving 2027, or thereabouts.
+    </div>
   </footer>
 
   <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ===== invitation + serial numbers (persist per visitor) =====
+    let inviteNo;
+    try {
+      inviteNo = localStorage.getItem('cd_invite_no');
+      if (!inviteNo){
+        inviteNo = String(Math.floor(Math.random() * 96) + 3).padStart(3, '0');
+        localStorage.setItem('cd_invite_no', inviteNo);
+      }
+    } catch (e) { inviteNo = '047'; }
+    document.getElementById('inviteNo').textContent = 'Nº ' + inviteNo;
+    document.getElementById('serialNo').textContent = 'CD-' + inviteNo;
+
     // ===== enter gate + audio consent =====
     const gate = document.getElementById('gate');
     const gateBtn = document.getElementById('gateBtn');
     const bgAudio = document.getElementById('bgAudio');
     const soundToggle = document.getElementById('soundToggle');
-    const soundIcon = document.getElementById('soundIcon');
     let audioOn = false;
+    let fadeTimer = null;
 
     // lock scroll while the gate is up
     document.body.style.overflow = 'hidden';
+
+    // ramps from the current volume toward the target, in either direction
+    function fadeAudioIn(target){
+      clearInterval(fadeTimer);
+      fadeTimer = setInterval(() => {
+        const d = target - bgAudio.volume;
+        if (Math.abs(d) <= 0.03){ bgAudio.volume = target; clearInterval(fadeTimer); return; }
+        bgAudio.volume += Math.sign(d) * 0.03;
+      }, 80);
+    }
 
     gateBtn.addEventListener('click', () => {
       gate.classList.add('hidden');
       document.body.style.overflow = '';
       window.scrollTo(0, 0);
-      soundToggle.style.display = 'block';
-      // the click is a user gesture, so browsers will allow playback
-      bgAudio.volume = 0.55;
+      // the click is a user gesture, so browsers will allow playback;
+      // the toggle only appears if audio actually starts (i.e. bg.mp3 exists)
+      bgAudio.volume = 0;
       bgAudio.play().then(() => {
         audioOn = true;
+        fadeAudioIn(0.55);
+        soundToggle.style.display = 'flex';
         soundToggle.classList.remove('muted');
       }).catch(() => {
-        // no audio file present yet, or playback blocked — toggle still available
         audioOn = false;
-        soundToggle.classList.add('muted');
       });
     });
 
@@ -936,14 +1365,19 @@
       } else {
         bgAudio.play().then(() => {
           audioOn = true;
+          fadeAudioIn(0.55);
           soundToggle.classList.remove('muted');
         }).catch(() => {});
       }
     });
 
-    // scroll reveal — JS sets hidden state, so content is never stuck invisible without JS
+    // ===== ticker — duplicate the set so the -50% loop is seamless =====
+    const tickerTrack = document.getElementById('tickerTrack');
+    tickerTrack.appendChild(tickerTrack.firstElementChild.cloneNode(true));
+
+    // ===== scroll reveal — JS sets hidden state, so content is never stuck invisible without JS =====
     const reveals = document.querySelectorAll('.reveal');
-    reveals.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(22px)'; });
+    reveals.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(26px)'; });
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting){
@@ -955,7 +1389,67 @@
     }, { threshold: 0.12 });
     reveals.forEach(el => obs.observe(el));
 
-    // countdown
+    // per-item stagger inside marked containers
+    document.querySelectorAll('[data-stagger]').forEach(container => {
+      const items = Array.from(container.children);
+      items.forEach((item, i) => {
+        item.classList.add('reveal-item');
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(18px)';
+        item.style.transitionDelay = (i * 70) + 'ms';
+      });
+      const iobs = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)){
+          items.forEach(item => {
+            item.style.opacity = '1';
+            item.style.transform = '';
+          });
+          // clear delays after entrance so hover offsets aren't laggy
+          setTimeout(() => items.forEach(item => { item.style.transitionDelay = '0ms'; }), items.length * 70 + 900);
+          iobs.disconnect();
+        }
+      }, { threshold: 0.08 });
+      iobs.observe(container);
+    });
+
+    // ===== scroll progress + hero parallax =====
+    const progressBar = document.getElementById('progressBar');
+    const heroBg = document.getElementById('heroBg');
+    let scrollRaf = null;
+    function onScroll(){
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(() => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+        if (!prefersReducedMotion && window.scrollY < window.innerHeight * 1.2){
+          heroBg.style.translate = '0 ' + (window.scrollY * 0.22) + 'px';
+        }
+        scrollRaf = null;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // ===== live countdown to doors =====
+    const tMinusEl = document.getElementById('tMinus');
+    const doorsOpen = new Date('2026-08-01T15:00:00-05:00');
+    function tickTMinus(){
+      const ms = doorsOpen - Date.now();
+      if (ms <= 0){
+        tMinusEl.textContent = 'THE EVENING IS IN SESSION';
+        clearInterval(tMinusInterval);
+        return;
+      }
+      const d = Math.floor(ms / 86400000);
+      const h = Math.floor(ms / 3600000) % 24;
+      const m = Math.floor(ms / 60000) % 60;
+      const s = Math.floor(ms / 1000) % 60;
+      const pad = n => String(n).padStart(2, '0');
+      tMinusEl.textContent = 'CONVENES IN ' + d + 'D ' + pad(h) + 'H ' + pad(m) + 'M ' + pad(s) + 'S';
+    }
+    tickTMinus();
+    const tMinusInterval = setInterval(tickTMinus, 1000);
+
+    // ===== fake-scarcity countdown on the ticket =====
     let remaining = 30, interval = null, claimed = false;
     const timerEl = document.getElementById('countdownTimer');
     const bannerTextEl = document.getElementById('bannerText');
@@ -985,11 +1479,11 @@
       timerEl.classList.remove('frantic-1','frantic-2');
       claimBtn.classList.remove('frantic-1','frantic-2');
       timerEl.style.display = 'inline-block';
-      bannerTextEl.textContent = 'Buy now \u2014 complimentary entry available for the next';
+      bannerTextEl.textContent = 'Buy now — complimentary entry available for the next';
       timerEl.textContent = '00:30';
       priceEl.classList.remove('claimed');
       claimBtn.disabled = false;
-      claimBtn.textContent = 'Buy Now \u2014 Claim for $0.00';
+      claimBtn.textContent = 'Buy Now — Claim for $0.00';
       clearInterval(interval);
       interval = setInterval(() => {
         if (claimed) return;
@@ -997,42 +1491,133 @@
         if (remaining <= 0) loopReset(); else render();
       }, 1000);
     }
-    function spawnConfetti(x, y){
-      const colors = ['#4DFF6E','#FF2EC4','#7A2BD9','#FF4D5E','#ECEAF2'];
-      for (let i=0;i<70;i++){
-        const p = document.createElement('div');
-        p.className = 'confetti-piece';
-        p.style.background = colors[Math.floor(Math.random()*colors.length)];
-        const tx = (Math.random()*2-1)*260, ty = 280+Math.random()*300, rot = 360+Math.random()*420;
-        const d = 0.8+Math.random()*1.0;
-        p.style.setProperty('--tx', tx+'px');
-        p.style.setProperty('--ty', ty+'px');
-        p.style.setProperty('--rot', rot+'deg');
-        p.style.left = x+'px'; p.style.top = y+'px';
-        p.style.animation = 'confettiFall '+d+'s ease-out forwards';
-        document.body.appendChild(p);
-        setTimeout(() => p.remove(), d*1000+60);
+
+    // ===== ticket tilt (fine pointers only) =====
+    const ticketWrap = document.getElementById('ticketWrap');
+    if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches){
+      ticketWrap.addEventListener('mousemove', (e) => {
+        if (claimed) return;
+        const r = ticketCardEl.getBoundingClientRect();
+        const dx = (e.clientX - r.left) / r.width - 0.5;
+        const dy = (e.clientY - r.top) / r.height - 0.5;
+        ticketCardEl.style.transform = 'rotateX(' + (-dy * 5) + 'deg) rotateY(' + (dx * 6) + 'deg)';
+      });
+      ticketWrap.addEventListener('mouseleave', () => {
+        ticketCardEl.style.transform = '';
+      });
+    }
+
+    // ===== confetti — canvas physics, launches UP, falls under gravity =====
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const cctx = confettiCanvas.getContext('2d');
+    let confetti = [], confettiRaf = null, lastFrame = 0;
+    let dpr = 1;
+
+    function sizeConfettiCanvas(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      confettiCanvas.width = window.innerWidth * dpr;
+      confettiCanvas.height = window.innerHeight * dpr;
+      cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    sizeConfettiCanvas();
+    window.addEventListener('resize', sizeConfettiCanvas);
+
+    function burstConfetti(x, y){
+      if (prefersReducedMotion) return;
+      const colors = ['#4DFF6E', '#FF2EC4', '#B44DFF', '#FF4D5E', '#ECEAF2', '#FFD84D'];
+      const count = 130;
+      for (let i = 0; i < count; i++){
+        // launch upward in a cone, with real spread in speed
+        const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.5;
+        const speed = 480 + Math.random() * 780;
+        confetti.push({
+          x: x + (Math.random() - 0.5) * 26,
+          y: y + (Math.random() - 0.5) * 10,
+          vx: Math.cos(angle) * speed * (0.45 + Math.random() * 0.55),
+          vy: Math.sin(angle) * speed,
+          w: 5 + Math.random() * 6,
+          h: 8 + Math.random() * 9,
+          rot: Math.random() * Math.PI * 2,
+          vr: (Math.random() - 0.5) * 16,
+          flutter: Math.random() * Math.PI * 2,
+          flutterSpeed: 5 + Math.random() * 9,
+          color: colors[(Math.random() * colors.length) | 0],
+          circle: Math.random() < 0.22,
+          life: 0
+        });
+      }
+      if (!confettiRaf){
+        lastFrame = performance.now();
+        confettiRaf = requestAnimationFrame(confettiTick);
       }
     }
+
+    function confettiTick(now){
+      const dt = Math.min((now - lastFrame) / 1000, 0.035);
+      lastFrame = now;
+      cctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      const GRAVITY = 1700;
+      const TERMINAL = 300;
+
+      confetti = confetti.filter(p => {
+        p.vy += GRAVITY * dt;
+        // paper doesn't plummet — clamp fall speed with a flutter wobble
+        if (p.vy > TERMINAL) p.vy = TERMINAL + Math.sin(p.flutter) * 80;
+        p.vx *= Math.exp(-2.1 * dt);
+        p.flutter += p.flutterSpeed * dt;
+        p.x += p.vx * dt + Math.sin(p.flutter) * 34 * dt;
+        p.y += p.vy * dt;
+        p.rot += p.vr * dt;
+        p.life += dt;
+
+        if (p.y > window.innerHeight + 40 || p.life > 7) return false;
+
+        cctx.save();
+        cctx.translate(p.x, p.y);
+        cctx.rotate(p.rot);
+        cctx.globalAlpha = Math.max(0, 1 - Math.max(0, p.life - 4) / 1.6);
+        cctx.fillStyle = p.color;
+        // tumble: foreshorten height as the piece flips
+        const hh = Math.max(1.4, p.h * Math.abs(Math.sin(p.flutter * 0.8 + p.rot)));
+        if (p.circle){
+          cctx.beginPath();
+          cctx.ellipse(0, 0, p.w / 2, hh / 2, 0, 0, Math.PI * 2);
+          cctx.fill();
+        } else {
+          cctx.fillRect(-p.w / 2, -hh / 2, p.w, hh);
+        }
+        cctx.restore();
+        return true;
+      });
+
+      if (confetti.length){
+        confettiRaf = requestAnimationFrame(confettiTick);
+      } else {
+        confettiRaf = null;
+        cctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+    }
+
     function claim(){
       if (claimed) return;
       claimed = true;
       clearInterval(interval);
-      [bannerEl, timerEl, claimBtn].forEach(el => el.classList.remove('frantic-1','frantic-2'));
-      bannerEl.classList.add('claimed');
-      timerEl.style.display = 'none';
-      bannerTextEl.textContent = 'Entry claimed \u2014 complimentary admission granted';
-      priceEl.classList.add('claimed');
-      claimBtn.disabled = true;
-      claimBtn.textContent = 'Entry Claimed';
       const r = claimBtn.getBoundingClientRect();
-      spawnConfetti(r.left + r.width/2, r.top + r.height/2);
-      const tc = document.getElementById('ticketCard'), rc = document.getElementById('rsvpContainer');
-      setTimeout(() => { tc.style.display = 'none'; rc.style.display = 'block'; }, 600);
+      burstConfetti(r.left + r.width / 2, r.top + r.height / 2);
+      // fanfare — duck the background music under it, then bring it back
+      const tada = document.getElementById('tadaAudio');
+      tada.volume = 0.9;
+      tada.play().catch(() => {});
+      if (audioOn){
+        bgAudio.volume = 0.15;
+        setTimeout(() => { if (audioOn) fadeAudioIn(0.55); }, 1800);
+      }
+      ticketCardEl.style.display = 'none';
+      document.getElementById('rsvpContainer').style.display = 'block';
     }
     claimBtn.addEventListener('click', claim);
 
-    // fake credential verification before real submit
+    // ===== fake credential verification before real submit =====
     const rsvpFormEl = document.getElementById('rsvpForm');
     rsvpFormEl.addEventListener('submit', function(e){
       if (rsvpFormEl.dataset.verified === 'true') return;
