@@ -10,7 +10,7 @@
 <meta property="og:description" content="An exclusive soirée, convened once, for those who have found this. August 1, 2026 — Château Dreux, Austin, TX.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://images.unsplash.com/photo-1659633874076-82f57ba8b486?fm=jpg&q=72&w=1200&auto=format&fit=crop">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84'%3E%3Crect width='84' height='84' fill='%2308070D'/%3E%3Ccircle cx='42' cy='42' r='34' fill='none' stroke='%23ECEAF2' stroke-opacity='0.5' stroke-width='2'/%3E%3Cpath d='M42 16 L68 42 L42 68 L16 42 Z' fill='none' stroke='%23E33DFF' stroke-width='2.5'/%3E%3Ccircle cx='42' cy='42' r='5' fill='none' stroke='%234DFF6E' stroke-width='2.5'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84'%3E%3Crect width='84' height='84' fill='%2308070D'/%3E%3Ccircle cx='42' cy='42' r='34' fill='none' stroke='%23ECEAF2' stroke-opacity='0.5' stroke-width='2'/%3E%3Cpath d='M42 16 L68 42 L42 68 L16 42 Z' fill='none' stroke='%23FF2EC4' stroke-width='2.5'/%3E%3Ccircle cx='42' cy='42' r='5' fill='none' stroke='%234DFF6E' stroke-width='2.5'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
@@ -21,7 +21,7 @@
     --bg:#08070D;
     --bg-2:#100D1A;
     --green:#4DFF6E;
-    --fuchsia:#E33DFF;
+    --fuchsia:#FF2EC4;
     --red:#FF4D5E;
     --violet:#7A2BD9;
     --ink:#ECEAF2;
@@ -88,7 +88,7 @@
     height:2px; width:0;
     z-index:340;
     background:linear-gradient(90deg, var(--fuchsia), var(--violet), var(--green));
-    box-shadow:0 0 10px rgba(227,61,255,0.55);
+    box-shadow:0 0 10px rgba(255,46,196,0.55);
     pointer-events:none;
   }
 
@@ -197,7 +197,7 @@
     animation:btnSheen 3.4s ease-in-out infinite;
   }
   @keyframes btnSheen{ 0%, 60%{ left:-80%; } 100%{ left:160%; } }
-  .gate-btn:hover{ transform:translateY(-2px); letter-spacing:0.3em; box-shadow:0 12px 40px rgba(227,61,255,0.5); }
+  .gate-btn:hover{ transform:translateY(-2px); letter-spacing:0.3em; box-shadow:0 12px 40px rgba(255,46,196,0.5); }
   .gate-sub{
     margin-top:20px;
     font-family:'Space Mono', monospace;
@@ -334,7 +334,7 @@
     display:block;
     text-transform:uppercase;
     letter-spacing:0;
-    font-size:clamp(36px, 8.6vw, 124px);
+    font-size:clamp(27px, 8.4vw, 124px);
     color:var(--ink);
     opacity:0;
     animation:fadeUp 1.1s cubic-bezier(0.22,1,0.36,1) forwards 1.3s;
@@ -491,7 +491,7 @@
     transform:rotate(-1.2deg);
     transition:transform 0.5s cubic-bezier(0.22,1,0.36,1), border-color 0.5s ease;
   }
-  .exhibit:hover{ transform:rotate(0deg) translateY(-3px); border-color:rgba(227,61,255,0.35); }
+  .exhibit:hover{ transform:rotate(0deg) translateY(-3px); border-color:rgba(255,46,196,0.35); }
   .exhibit img{
     display:block;
     width:100%;
@@ -629,7 +629,7 @@
   }
   .prog-row:hover{
     padding-left:34px;
-    background:linear-gradient(90deg, rgba(227,61,255,0.05), transparent);
+    background:linear-gradient(90deg, rgba(255,46,196,0.05), transparent);
   }
   .prog-row:hover::before{ opacity:1; left:8px; }
   .prog-num{
@@ -678,7 +678,7 @@
     margin-top:20px;
     color:transparent;
     -webkit-text-stroke:1.2px var(--fuchsia);
-    text-shadow:0 0 28px rgba(227,61,255,0.25);
+    text-shadow:0 0 28px rgba(255,46,196,0.25);
   }
   .guests-grid{
     display:grid;
@@ -697,7 +697,7 @@
     content:"";
     position:absolute;
     width:9px; height:9px;
-    border-color:rgba(227,61,255,0.55);
+    border-color:rgba(255,46,196,0.55);
     border-style:solid;
     opacity:0;
     transition:opacity 0.4s ease;
@@ -843,8 +843,8 @@
   }
   .ticket-price{
     font-family:'Space Mono', monospace;
-    font-size:clamp(32px, 5vw, 50px);
-    line-height:1;
+    font-size:clamp(27px, 5vw, 50px);
+    line-height:1.15;
   }
   .ticket-price .amount{
     text-decoration:line-through;
@@ -869,8 +869,8 @@
   .countdown-banner{
     margin-top:26px;
     padding:16px;
-    border:1px solid rgba(227,61,255,0.3);
-    background:rgba(227,61,255,0.05);
+    border:1px solid rgba(255,46,196,0.3);
+    background:rgba(255,46,196,0.05);
     font-size:13px;
     transition:border-color 0.4s, background 0.4s;
   }
@@ -882,7 +882,7 @@
   .countdown-timer.frantic-2{ color:var(--red); font-weight:700; animation:pulse 0.22s ease-in-out infinite; }
   @keyframes pulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.22);} }
   @keyframes bannerShake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-2px);} 75%{transform:translateX(2px);} }
-  @keyframes flashReset{ 0%{background:rgba(227,61,255,0.25);} 100%{background:rgba(8,7,13,0.8);} }
+  @keyframes flashReset{ 0%{background:rgba(255,46,196,0.25);} 100%{background:rgba(8,7,13,0.8);} }
   .ticket-card.flash{ animation:flashReset 0.5s ease; }
 
   .claim-btn{
@@ -900,7 +900,7 @@
     cursor:pointer;
     transition:transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
   }
-  .claim-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(227,61,255,0.4); }
+  .claim-btn:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(255,46,196,0.4); }
   .claim-btn.frantic-1{ background:var(--red); border-color:var(--red); }
   .claim-btn.frantic-2{ background:var(--red); border-color:var(--red); animation:pulse 0.28s ease-in-out infinite; }
   .claim-btn:disabled{ opacity:0.5; cursor:default; }
@@ -1073,6 +1073,8 @@
     .log-cell:nth-child(even){ padding-left:0; }
     .ticket-card{ padding:32px 22px 24px; }
     .ticket-stub{ flex-direction:column; align-items:flex-start; }
+    .hero-meta .when{ font-size:10.5px; letter-spacing:0.18em; }
+    .t-minus{ font-size:10px; letter-spacing:0.16em; padding:9px 13px; }
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -1233,7 +1235,7 @@
           <div class="buy-now-tag">Limited Offer</div>
           <div class="ticket-label">Inner Circle Entry</div>
           <div class="ticket-price mono" id="ticketPrice">
-            <span class="amount" id="ticketAmount">$1,000.00</span><span class="free">$0.00</span>
+            <span class="amount" id="ticketAmount">$1,000.00</span> <span class="free">$0.00</span>
           </div>
           <div class="ticket-fine">Plus applicable fees. Non&#8209;refundable. Tax included begrudgingly.</div>
           <div class="countdown-banner" id="countdownBanner">
@@ -1524,7 +1526,7 @@
 
     function burstConfetti(x, y){
       if (prefersReducedMotion) return;
-      const colors = ['#4DFF6E', '#E33DFF', '#B44DFF', '#FF4D5E', '#ECEAF2', '#FFD84D'];
+      const colors = ['#4DFF6E', '#FF2EC4', '#B44DFF', '#FF4D5E', '#ECEAF2', '#FFD84D'];
       const count = 130;
       for (let i = 0; i < count; i++){
         // launch upward in a cone, with real spread in speed
