@@ -135,6 +135,7 @@
   }
   @keyframes gateIn{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
   .gate-sigil{ width:76px; height:76px; margin:0 auto 30px; position:relative; }
+  .gate-sigil, .footer-sigil{ cursor:pointer; transition:transform 0.4s cubic-bezier(0.22,1,0.36,1); }
   .gate-sigil svg{ width:100%; height:100%; overflow:visible; }
   .gate-sigil .ring{ transform-origin:center; animation:sigilSpin 32s linear infinite; }
   .gate-sigil .core{ animation:sigilPulse 3.2s ease-in-out infinite; }
@@ -1841,9 +1842,51 @@
     // ===== the blessing — click either sigil three times =====
     const blessingEl = document.getElementById('blessing');
     let sigilTaps = 0, sigilTapTimer = null;
+
+    // tap chime — synthesized, climbs a diminished arpeggio across the three taps
+    let chimeCtx = null;
+    function sigilChime(step){
+      try {
+        chimeCtx = chimeCtx || new (window.AudioContext || window.webkitAudioContext)();
+        const t = chimeCtx.currentTime;
+        const freqs = [220, 261.63, 311.13];
+        const f = freqs[Math.min(Math.max(step, 0), 2)];
+        [f, f * 2.01].forEach((freq, i) => {
+          const o = chimeCtx.createOscillator();
+          const g = chimeCtx.createGain();
+          o.type = i ? 'sine' : 'triangle';
+          o.frequency.value = freq;
+          g.gain.setValueAtTime(0.0001, t);
+          g.gain.exponentialRampToValueAtTime(i ? 0.05 : 0.12, t + 0.012);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+          o.connect(g).connect(chimeCtx.destination);
+          o.start(t);
+          o.stop(t + 0.75);
+        });
+      } catch (e) {}
+    }
+
+    // on fine pointers the sigil dodges the cursor a few times, then relents
+    if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches){
+      document.querySelectorAll('.gate-sigil, .footer-sigil').forEach(sigil => {
+        let dodges = 0, restTimer = null;
+        sigil.addEventListener('mouseenter', () => {
+          if (dodges >= 4) return; // it submits — catchable now
+          dodges++;
+          clearTimeout(restTimer);
+          restTimer = setTimeout(() => { dodges = 0; sigil.style.transform = ''; }, 4000);
+          const a = Math.random() * Math.PI * 2;
+          const d = 46 + Math.random() * 40;
+          sigil.style.transform = 'translate(' + Math.round(Math.cos(a) * d) + 'px,' +
+            Math.round(Math.sin(a) * d) + 'px) rotate(' + Math.round((Math.random() - 0.5) * 30) + 'deg)';
+        });
+      });
+    }
+
     document.querySelectorAll('.gate-sigil, .footer-sigil').forEach(sigil => {
       sigil.addEventListener('click', () => {
         sigilTaps++;
+        sigilChime(sigilTaps - 1);
         clearTimeout(sigilTapTimer);
         sigilTapTimer = setTimeout(() => { sigilTaps = 0; }, 1400);
         if (sigilTaps >= 3){
