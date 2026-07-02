@@ -1988,10 +1988,13 @@
       setTimeout(() => {
         clearInterval(mi);
         btn.textContent = 'Access Granted';
-        // remember who they claim to be — the committee greets by alias henceforth
+        // remember who they claim to be — and that they responded — at the moment
+        // of submission, so a missed redirect can't lose the record
         try {
           const who = (document.getElementById('alias').value || document.getElementById('name').value || '').trim().slice(0, 28);
           if (who) localStorage.setItem('cd_alias', who);
+          localStorage.setItem('cd_rsvpd', '1');
+          localStorage.removeItem('cd_expired');
         } catch (err) {}
         setTimeout(() => { rsvpFormEl.dataset.verified = 'true'; rsvpFormEl.submit(); }, 500);
       }, 2400);
@@ -2426,7 +2429,9 @@
     let timerExpired = false, hasRsvpd = false;
     try {
       timerExpired = localStorage.getItem('cd_expired') === '1';
-      hasRsvpd = localStorage.getItem('cd_rsvpd') === '1';
+      // an alias only ever gets stored by the RSVP submit handler, so its
+      // presence is proof of a past response (covers pre-flag submissions)
+      hasRsvpd = localStorage.getItem('cd_rsvpd') === '1' || !!alias;
     } catch (e) {}
 
     function showConfirmed(){
