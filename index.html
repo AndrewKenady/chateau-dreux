@@ -110,6 +110,39 @@
     pointer-events:none;
   }
 
+  /* cursor trail — falling sigil shards (desktop only, spawned via JS) */
+  #trailCanvas{
+    position:fixed; inset:0;
+    width:100%; height:100%;
+    z-index:310;
+    pointer-events:none;
+  }
+
+  /* bokeh — vast, faint orbs adrift behind everything */
+  .bokeh{ position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  .bokeh i{
+    position:absolute;
+    display:block;
+    border-radius:50%;
+    will-change:transform;
+  }
+  .bokeh i:nth-child(1){ width:44vw; height:44vw; top:-12vw; left:-10vw; background:radial-gradient(circle, rgba(122,43,217,0.10), transparent 68%); animation:bokehA 67s ease-in-out infinite; }
+  .bokeh i:nth-child(2){ width:34vw; height:34vw; top:30vh; right:-12vw; background:radial-gradient(circle, rgba(255,46,196,0.07), transparent 68%); animation:bokehB 53s ease-in-out infinite; }
+  .bokeh i:nth-child(3){ width:26vw; height:26vw; bottom:-8vw; left:16vw; background:radial-gradient(circle, rgba(77,255,110,0.055), transparent 68%); animation:bokehA 79s ease-in-out infinite reverse; }
+  .bokeh i:nth-child(4){ width:18vw; height:18vw; top:12vh; left:44vw; background:radial-gradient(circle, rgba(255,46,196,0.05), transparent 70%); animation:bokehB 43s ease-in-out infinite reverse; }
+  .bokeh i:nth-child(5){ width:22vw; height:22vw; bottom:22vh; right:24vw; background:radial-gradient(circle, rgba(122,43,217,0.08), transparent 68%); animation:bokehA 61s ease-in-out infinite; animation-delay:-20s; }
+  .bokeh i:nth-child(6){ width:12vw; height:12vw; top:58vh; left:8vw; background:radial-gradient(circle, rgba(236,234,242,0.04), transparent 70%); animation:bokehB 37s ease-in-out infinite; animation-delay:-14s; }
+  @keyframes bokehA{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    33%{ transform:translate(7vw,-9vh) scale(1.18); }
+    66%{ transform:translate(-6vw,7vh) scale(0.88); }
+  }
+  @keyframes bokehB{
+    0%,100%{ transform:translate(0,0) scale(1); }
+    40%{ transform:translate(-8vw,6vh) scale(1.12); }
+    70%{ transform:translate(5vw,-8vh) scale(0.92); }
+  }
+
   /* ============ ENTER GATE ============ */
   .gate{
     position:fixed;
@@ -1103,13 +1136,15 @@
     padding:12px 14px;
     text-align:left;
   }
+  /* fixed geometry: the card must not wander as the dialogue changes */
+  #parley{ min-height:400px; }
   .parley-text{
     margin-top:18px;
     font-size:19px;
     font-style:italic;
     line-height:1.75;
     color:var(--ink);
-    min-height:96px;
+    min-height:135px;
   }
   .parley-opts{ display:flex; flex-direction:column; gap:10px; margin-top:24px; }
   @keyframes parleyIn{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:translateY(0); } }
@@ -1226,6 +1261,8 @@
     .ticket-stub{ flex-direction:column; align-items:flex-start; }
     .hero-meta .when{ font-size:10.5px; letter-spacing:0.18em; }
     .t-minus{ font-size:10px; letter-spacing:0.16em; padding:9px 13px; }
+    .parley-text{ min-height:200px; }
+    #parley{ min-height:440px; }
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -1239,6 +1276,7 @@
 </head>
 <body>
 
+  <div class="bokeh" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="grain" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
   <div class="progress" id="progressBar" aria-hidden="true"></div>
@@ -1807,6 +1845,84 @@
       } else {
         confettiRaf = null;
         cctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+    }
+
+    // ===== cursor trail — falling sigil shards (desktop only) =====
+    if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches){
+      const trailCanvas = document.createElement('canvas');
+      trailCanvas.id = 'trailCanvas';
+      trailCanvas.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(trailCanvas);
+      const tctx = trailCanvas.getContext('2d');
+      function sizeTrailCanvas(){
+        const tdpr = Math.min(window.devicePixelRatio || 1, 2);
+        trailCanvas.width = window.innerWidth * tdpr;
+        trailCanvas.height = window.innerHeight * tdpr;
+        tctx.setTransform(tdpr, 0, 0, tdpr, 0, 0);
+      }
+      sizeTrailCanvas();
+      window.addEventListener('resize', sizeTrailCanvas);
+
+      const TRAIL_COLORS = ['#FF2EC4', '#4DFF6E', '#B44DFF', '#ECEAF2'];
+      let shards = [], trailRaf = null, trailLast = 0, tx = -99, ty = -99;
+
+      window.addEventListener('mousemove', (e) => {
+        const dx = e.clientX - tx, dy = e.clientY - ty;
+        if (dx * dx + dy * dy < 150) return; // one shard per ~12px of travel
+        tx = e.clientX; ty = e.clientY;
+        shards.push({
+          x: tx + (Math.random() - 0.5) * 6,
+          y: ty + (Math.random() - 0.5) * 6,
+          s: 2.6 + Math.random() * 3.6,
+          rot: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 4,
+          vx: (Math.random() - 0.5) * 14,
+          vy: 10 + Math.random() * 22,
+          life: 0,
+          ttl: 0.5 + Math.random() * 0.45,
+          color: TRAIL_COLORS[(Math.random() * TRAIL_COLORS.length) | 0]
+        });
+        if (shards.length > 80) shards.splice(0, shards.length - 80);
+        if (!trailRaf){
+          trailLast = performance.now();
+          trailRaf = requestAnimationFrame(trailTick);
+        }
+      }, { passive: true });
+
+      function trailTick(now){
+        const dt = Math.min((now - trailLast) / 1000, 0.04);
+        trailLast = now;
+        tctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        shards = shards.filter(p => {
+          p.life += dt;
+          const a = 1 - p.life / p.ttl;
+          if (a <= 0) return false;
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.rot += p.vr * dt;
+          tctx.save();
+          tctx.translate(p.x, p.y);
+          tctx.rotate(p.rot);
+          tctx.globalAlpha = a * 0.7;
+          tctx.fillStyle = p.color;
+          const s = p.s * (0.5 + a * 0.5);
+          tctx.beginPath();
+          tctx.moveTo(0, -s);
+          tctx.lineTo(s * 0.62, 0);
+          tctx.lineTo(0, s);
+          tctx.lineTo(-s * 0.62, 0);
+          tctx.closePath();
+          tctx.fill();
+          tctx.restore();
+          return true;
+        });
+        if (shards.length){
+          trailRaf = requestAnimationFrame(trailTick);
+        } else {
+          trailRaf = null;
+          tctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        }
       }
     }
 
