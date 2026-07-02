@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Such Document — Château Dreux</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84'%3E%3Crect width='84' height='84' fill='%2308070D'/%3E%3Ccircle cx='42' cy='42' r='34' fill='none' stroke='%23ECEAF2' stroke-opacity='0.5' stroke-width='2'/%3E%3Cpath d='M42 16 L68 42 L42 68 L16 42 Z' fill='none' stroke='%23FF2EC4' stroke-width='2.5'/%3E%3Ccircle cx='42' cy='42' r='5' fill='none' stroke='%234DFF6E' stroke-width='2.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=EB+Garamond:ital,wght@0,400;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08070D;
+    --green:#4DFF6E;
+    --fuchsia:#FF2EC4;
+    --ink:#ECEAF2;
+    --dim:#938EAD;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    background-image:radial-gradient(ellipse 60% 50% at 50% 38%, rgba(122,43,217,0.14), transparent 70%);
+    color:var(--ink);
+    font-family:'EB Garamond', serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:32px;
+  }
+  .inner{ max-width:560px; }
+  .sigil{ width:64px; height:64px; margin:0 auto 30px; opacity:0.8; }
+  .sigil svg{ width:100%; height:100%; }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--fuchsia);
+    margin-bottom:26px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:650;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:1.0;
+    font-size:clamp(28px, 6vw, 54px);
+  }
+  h1 span{
+    display:block;
+    font-style:italic;
+    font-weight:480;
+    text-transform:none;
+    font-size:0.74em;
+    color:transparent;
+    -webkit-text-stroke:1px var(--green);
+    text-shadow:0 0 22px rgba(77,255,110,0.4);
+    margin-top:8px;
+  }
+  p{
+    margin:26px auto 0;
+    max-width:420px;
+    color:var(--dim);
+    font-style:italic;
+    font-size:16px;
+    line-height:1.7;
+  }
+  a.return{
+    display:inline-block;
+    margin-top:38px;
+    background:var(--fuchsia);
+    color:#08070D;
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:18px 44px;
+    transition:transform 0.25s ease, box-shadow 0.35s ease;
+  }
+  a.return:hover{ transform:translateY(-2px); box-shadow:0 12px 40px rgba(255,46,196,0.5); }
+  .sub{
+    margin-top:20px;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--dim);
+  }
+</style>
+</head>
+<body>
+  <div class="inner">
+    <div class="sigil" aria-hidden="true">
+      <svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="40" fill="none" stroke="rgba(236,234,242,0.5)" stroke-width="0.75" stroke-dasharray="4 7"/><path d="M42 14 L66 42 L42 70 L18 42 Z" fill="none" stroke="var(--fuchsia)" stroke-width="0.9"/><circle cx="42" cy="42" r="4" fill="none" stroke="var(--green)" stroke-width="0.9"/></svg>
+    </div>
+    <div class="eyebrow">Château Dreux &middot; Records Division</div>
+    <h1>This Page<span>Does Not Exist</span></h1>
+    <p>Neither, technically, does the committee. The records show no such document, and the records are thorough. Whatever you were looking for, it was never here — or it was here once, briefly, and has been dealt with.</p>
+    <a class="return" href="/">Return to the Grounds</a>
+    <div class="sub">Error 404 &middot; Filed without comment</div>
+  </div>
+</body>
+</html>

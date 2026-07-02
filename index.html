@@ -1309,7 +1309,8 @@
     </div>
   </div>
 
-  <audio id="bgAudio" loop preload="auto">
+  <!-- metadata only: 3.4MB shouldn't download before anyone clicks Enter -->
+  <audio id="bgAudio" loop preload="metadata">
     <source src="bg.mp3" type="audio/mpeg">
   </audio>
   <audio id="tadaAudio" preload="auto">
@@ -1467,6 +1468,7 @@
           <form class="rsvp-form" id="rsvpForm" action="https://formsubmit.co/damanwitdaplan@gmail.com" method="POST">
             <input type="hidden" name="_subject" value="RSVP: Late Housewarming / Early Farewell">
             <input type="hidden" name="_next" value="https://chateaudreux.party/?submitted=1">
+            <input type="hidden" name="_autoresponse" value="Your request has been received and is being cross-referenced against records you are not aware exist. If eligibility is confirmed, no further action is required; the door will know you.&#10;&#10;Saturday, August 1, 2026 &mdash; doors at 3:00 PM&#10;Ch&acirc;teau Dreux &mdash; 5521 Springdale Rd, Austin, TX&#10;https://chateaudreux.party&#10;&#10;Do not reply to this message. The committee replies to you.&#10;&#10;Est. 2025 &mdash; dissolving 2027, or thereabouts.">
             <input type="text" name="_honey" style="display:none">
             <div class="row-2">
               <div class="field"><label for="name">Full Name</label><input type="text" id="name" name="Name" required></div>
@@ -1592,13 +1594,14 @@
       // the click is a user gesture, so browsers will allow playback;
       // the toggle only appears if audio actually starts (i.e. bg.mp3 exists)
       bgAudio.volume = 0;
+      soundToggle.style.display = 'flex'; // always available inside, even if autoplay was blocked
       bgAudio.play().then(() => {
         audioOn = true;
         fadeAudioIn(0.55);
-        soundToggle.style.display = 'flex';
         soundToggle.classList.remove('muted');
       }).catch(() => {
         audioOn = false;
+        soundToggle.classList.add('muted');
       });
     });
 
@@ -1616,8 +1619,17 @@
       }
     });
 
+    // ===== the committee knows your name (stored at RSVP time) =====
+    let alias = '';
+    try { alias = (localStorage.getItem('cd_alias') || '').trim().slice(0, 28); } catch (e) {}
+
     // ===== ticker — duplicate the set so the -50% loop is seamless =====
     const tickerTrack = document.getElementById('tickerTrack');
+    if (alias){
+      const welcome = document.createElement('span');
+      welcome.textContent = 'The committee welcomes ' + alias;
+      tickerTrack.firstElementChild.appendChild(welcome); // added before cloning, so both halves match
+    }
     tickerTrack.appendChild(tickerTrack.firstElementChild.cloneNode(true));
 
     // ===== scroll reveal — JS sets hidden state, so content is never stuck invisible without JS =====
@@ -1967,6 +1979,11 @@
       setTimeout(() => {
         clearInterval(mi);
         btn.textContent = 'Access Granted';
+        // remember who they claim to be — the committee greets by alias henceforth
+        try {
+          const who = (document.getElementById('alias').value || document.getElementById('name').value || '').trim().slice(0, 28);
+          if (who) localStorage.setItem('cd_alias', who);
+        } catch (err) {}
         setTimeout(() => { rsvpFormEl.dataset.verified = 'true'; rsvpFormEl.submit(); }, 500);
       }, 2400);
     });
@@ -2138,6 +2155,7 @@
       } catch (e) {}
     }
 
+    let gospelAnswered = false;
     document.addEventListener('keydown', (e) => {
       if (e.key.length !== 1) return; // the gospel hears all typing, even in form fields
       typedBuf = (typedBuf + e.key.toLowerCase()).slice(-5);
@@ -2149,6 +2167,11 @@
         jumpscareEl.classList.add('on');
         clearTimeout(jumpscareTimer);
         jumpscareTimer = setTimeout(() => jumpscareEl.classList.remove('on'), 1000);
+        // a full recitation does not go unnoticed
+        if (!gospelAnswered && gospelIdx >= GOSPEL.length){
+          gospelAnswered = true;
+          setTimeout(summonBlessing, 1600);
+        }
       }
     });
 
@@ -2197,6 +2220,24 @@
       });
     }
 
+    // the visitation itself — reachable by sigil ritual or full recitation
+    function summonBlessing(){
+      blessingEl.classList.remove('off');
+      blessingEl.classList.add('on');
+      const organ = document.getElementById('blessAudio');
+      organ.volume = 0.8;
+      organ.currentTime = 0;
+      organ.play().catch(() => {}); // silent if blessing.mp3 isn't there yet
+      // the god speaks alone — fade the bg music down for the duration
+      if (audioOn) fadeAudioIn(0.06);
+      setTimeout(() => {
+        blessingEl.classList.remove('on');
+        blessingEl.classList.add('off');
+        setTimeout(() => blessingEl.classList.remove('off'), 650);
+        if (audioOn) fadeAudioIn(0.55);
+      }, 5000);
+    }
+
     document.querySelectorAll('.gate-sigil, .footer-sigil').forEach(sigil => {
       sigil.addEventListener('click', () => {
         sigilTaps++;
@@ -2205,20 +2246,7 @@
         sigilTapTimer = setTimeout(() => { sigilTaps = 0; }, 1400);
         if (sigilTaps >= 3){
           sigilTaps = 0;
-          blessingEl.classList.remove('off');
-          blessingEl.classList.add('on');
-          const organ = document.getElementById('blessAudio');
-          organ.volume = 0.8;
-          organ.currentTime = 0;
-          organ.play().catch(() => {}); // silent if blessing.mp3 isn't there yet
-          // the god speaks alone — fade the bg music down for the duration
-          if (audioOn) fadeAudioIn(0.06);
-          setTimeout(() => {
-            blessingEl.classList.remove('on');
-            blessingEl.classList.add('off');
-            setTimeout(() => blessingEl.classList.remove('off'), 650);
-            if (audioOn) fadeAudioIn(0.55);
-          }, 5000);
+          summonBlessing();
         }
       });
     });
@@ -2235,10 +2263,10 @@
     } catch (e) {}
     let visitNote = '';
     if (rapidReturn && visits >= 2) visitNote = 'Refreshing changes nothing. The committee remains.';
-    else if (visits === 2) visitNote = 'Welcome back, traveller. The committee never doubted you.';
-    else if (visits === 3) visitNote = 'Third visit. A file has been opened.';
-    else if (visits === 4) visitNote = 'Fourth visit. The cats are beginning to recognize you.';
-    else if (visits >= 5) visitNote = 'Visit Nº ' + visits + '. At this point you are essentially staff.';
+    else if (visits === 2) visitNote = 'Welcome back, ' + (alias || 'traveller') + '. The committee never doubted you.';
+    else if (visits === 3) visitNote = 'Third visit' + (alias ? ', ' + alias : '') + '. A file has been opened.';
+    else if (visits === 4) visitNote = 'Fourth visit. The cats are beginning to recognize you' + (alias ? ', ' + alias : '') + '.';
+    else if (visits >= 5) visitNote = 'Visit Nº ' + visits + (alias ? ', ' + alias : '') + '. At this point you are essentially staff.';
 
     const realTitle = document.title;
     document.addEventListener('visibilitychange', () => {
@@ -2382,7 +2410,8 @@
     if (urlParams.get('submitted') === '1'){
       // back from FormSubmit — show the confirmation instead of the sales pitch
       gateTitleEl.innerHTML = 'Request<span>Received</span>';
-      gateNoteEl.textContent = 'Your request is under review. Confirmation will follow by separate message. Do not contact the committee; the committee will contact you.';
+      gateNoteEl.textContent = 'Your request is under review. Confirmation will follow by separate message. Do not contact the committee; the committee will contact you' + (alias ? ', ' + alias : '') + '.';
+      if (alias) document.querySelector('#confirmedPanel .lead').textContent = 'Request received, ' + alias + '. Confirmation will follow by separate message.';
       gateBtn.textContent = 'Return to the Grounds';
       ticketCardEl.style.display = 'none';
       document.getElementById('confirmedPanel').style.display = 'block';
