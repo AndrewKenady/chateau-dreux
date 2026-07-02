@@ -404,11 +404,16 @@
     animation:fadeUp 1s ease forwards 1.85s;
   }
   .hero-meta .when{
+    display:block;
     font-family:'Space Mono', monospace;
     font-size:12px;
     letter-spacing:0.24em;
     text-transform:uppercase;
     color:var(--ink);
+  }
+  .hero-meta .where{
+    margin-top:9px;
+    color:var(--dim);
   }
   .hero-meta .sub{
     font-style:italic;
@@ -1343,7 +1348,10 @@
         <span class="l2">Early Farewell</span>
       </h1>
       <div class="hero-meta">
-        <span class="when">August 1, 2026 &middot; Doors at 3:00 PM &middot; Austin, TX</span>
+        <div>
+          <span class="when">August 1, 2026 &middot; Doors at 3:00 PM</span>
+          <span class="when where">Austin, TX</span>
+        </div>
         <span class="sub">An exclusive soir&eacute;e and networking social, convened once, for those who have found this.</span>
       </div>
       <div class="t-minus" id="tMinus">CONVENES IN &mdash;</div>
