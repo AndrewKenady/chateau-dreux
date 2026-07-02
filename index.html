@@ -1488,6 +1488,7 @@
           <p class="lead">Your request is under review. Confirmation will follow by separate message.</p>
           <button class="cal-btn" id="icsBtn" type="button">Mark Your Calendar (.ics)</button>
           <a class="cal-btn alt" id="gcalBtn" href="#" target="_blank" rel="noopener">Google Calendar</a>
+          <button class="cal-btn alt" id="editRsvpBtn" type="button">Amend Your Response</button>
           <div class="form-note">Do not contact the committee. The committee will contact you.</div>
         </div>
 
@@ -2004,6 +2005,16 @@
       location: '5521 Springdale Rd, Austin, TX',
       details: 'One evening only. Attendance will be noted, favorably.\nhttps://chateaudreux.party'
     };
+    // amendments are permitted; forgetting is not
+    document.getElementById('editRsvpBtn').addEventListener('click', () => {
+      document.getElementById('confirmedPanel').style.display = 'none';
+      const rc = document.getElementById('rsvpContainer');
+      rc.querySelector('h3').textContent = 'Amend Your Response';
+      rc.querySelector('.lead').textContent = 'The previous record will be superseded. The previous record will also be kept.';
+      if (alias) document.getElementById('alias').value = alias;
+      rc.style.display = 'block';
+    });
+
     document.getElementById('gcalBtn').href =
       'https://calendar.google.com/calendar/render?action=TEMPLATE' +
       '&text=' + encodeURIComponent(EVENT.title) +
@@ -2404,17 +2415,32 @@
     // ===== initial state: normal, post-RSVP, or temporal =====
     const gateTitleEl = document.querySelector('.gate-title');
     const gateNoteEl = document.querySelector('.gate-note');
-    let timerExpired = false;
-    try { timerExpired = localStorage.getItem('cd_expired') === '1'; } catch (e) {}
+    let timerExpired = false, hasRsvpd = false;
+    try {
+      timerExpired = localStorage.getItem('cd_expired') === '1';
+      hasRsvpd = localStorage.getItem('cd_rsvpd') === '1';
+    } catch (e) {}
+
+    function showConfirmed(){
+      if (alias) document.querySelector('#confirmedPanel .lead').textContent = 'Request received, ' + alias + '. Confirmation will follow by separate message.';
+      ticketCardEl.style.display = 'none';
+      paywallEl.style.display = 'none';
+      parleyEl.style.display = 'none';
+      document.getElementById('rsvpContainer').style.display = 'none';
+      document.getElementById('confirmedPanel').style.display = 'block';
+    }
 
     if (urlParams.get('submitted') === '1'){
-      // back from FormSubmit — show the confirmation instead of the sales pitch
+      // back from FormSubmit — remember it, and show the confirmation instead of the sales pitch
+      try {
+        localStorage.setItem('cd_rsvpd', '1');
+        localStorage.removeItem('cd_expired'); // an accepted request settles all outstanding grudges
+      } catch (e) {}
+      hasRsvpd = true;
       gateTitleEl.innerHTML = 'Request<span>Received</span>';
       gateNoteEl.textContent = 'Your request is under review. Confirmation will follow by separate message. Do not contact the committee; the committee will contact you' + (alias ? ', ' + alias : '') + '.';
-      if (alias) document.querySelector('#confirmedPanel .lead').textContent = 'Request received, ' + alias + '. Confirmation will follow by separate message.';
       gateBtn.textContent = 'Return to the Grounds';
-      ticketCardEl.style.display = 'none';
-      document.getElementById('confirmedPanel').style.display = 'block';
+      showConfirmed();
       try { history.replaceState(null, '', location.pathname); } catch (e) {} // clean the URL so refresh resets
     } else if (siteState === 'after'){
       gateTitleEl.innerHTML = 'This Invitation<span>Has Expired</span>';
@@ -2432,7 +2458,10 @@
         gateNoteEl.textContent = visitNote;
         if (visits >= 3) gateBtn.textContent = 'Enter (Again)';
       }
-      if (timerExpired){
+      if (hasRsvpd){
+        // already on the list — no timers, no paywalls, no interrogations
+        showConfirmed();
+      } else if (timerExpired){
         // they let the offer die, then came back. the form has questions.
         ticketCardEl.style.display = 'none';
         parleyEl.style.display = 'block';
