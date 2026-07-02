@@ -396,9 +396,12 @@
   }
   .hero-meta{
     margin-top:42px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
     display:flex;
     flex-wrap:wrap;
-    align-items:baseline;
+    justify-content:space-between;
+    align-items:flex-end;
     gap:14px 30px;
     opacity:0;
     animation:fadeUp 1s ease forwards 1.85s;
@@ -412,7 +415,7 @@
     color:var(--ink);
   }
   .hero-meta .where{
-    margin-top:9px;
+    margin-bottom:9px;
     color:var(--dim);
   }
   .hero-meta .sub{
@@ -420,6 +423,7 @@
     color:var(--dim);
     font-size:16px;
     max-width:420px;
+    text-align:right;
   }
   .t-minus{
     margin-top:22px;
@@ -1264,7 +1268,8 @@
     .program-banner{ height:36vh; margin-bottom:-6vh; background-attachment:scroll; }
     .prog-row{ grid-template-columns:42px 1fr; }
     .prog-detail{ grid-column:1 / -1; text-align:left; padding-top:6px; max-width:none; }
-    .hero-meta{ flex-direction:column; gap:14px; }
+    .hero-meta{ flex-direction:column; align-items:flex-start; gap:14px; }
+    .hero-meta .sub{ text-align:left; }
   }
   @media (max-width:560px){
     .row-2{ grid-template-columns:1fr; }
@@ -1349,8 +1354,8 @@
       </h1>
       <div class="hero-meta">
         <div>
-          <span class="when">August 1, 2026 &middot; Doors at 3:00 PM</span>
           <span class="when where">Austin, TX</span>
+          <span class="when">August 1, 2026 &middot; Doors at 3:00 PM</span>
         </div>
         <span class="sub">An exclusive soir&eacute;e and networking social, convened once, for those who have found this.</span>
       </div>
