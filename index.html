@@ -2022,10 +2022,13 @@
           organ.volume = 0.8;
           organ.currentTime = 0;
           organ.play().catch(() => {}); // silent if blessing.mp3 isn't there yet
+          // the god speaks alone — fade the bg music down for the duration
+          if (audioOn) fadeAudioIn(0.06);
           setTimeout(() => {
             blessingEl.classList.remove('on');
             blessingEl.classList.add('off');
             setTimeout(() => blessingEl.classList.remove('off'), 650);
+            if (audioOn) fadeAudioIn(0.55);
           }, 5000);
         }
       });
