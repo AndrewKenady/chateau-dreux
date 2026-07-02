@@ -1990,9 +1990,10 @@
       } catch (e) {}
     }
 
-    // on fine pointers the sigil dodges the cursor a few times, then relents
+    // on fine pointers the GATE sigil dodges the cursor a few times, then relents
+    // (footer sigil stays put — no games once the music is playing)
     if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches){
-      document.querySelectorAll('.gate-sigil, .footer-sigil').forEach(sigil => {
+      document.querySelectorAll('.gate-sigil').forEach(sigil => {
         let dodges = 0, restTimer = null;
         sigil.addEventListener('mouseenter', () => {
           if (dodges >= 4) return; // it submits — catchable now
