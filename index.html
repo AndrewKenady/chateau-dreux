@@ -1112,6 +1112,7 @@
     min-height:96px;
   }
   .parley-opts{ display:flex; flex-direction:column; gap:10px; margin-top:24px; }
+  @keyframes parleyIn{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:translateY(0); } }
   .parley-btn{
     background:transparent;
     border:1px solid rgba(255,46,196,0.45);
@@ -2175,12 +2176,18 @@
     function showParley(key){
       const node = PARLEY[key];
       parleyTextEl.textContent = node.text;
+      // the form speaks first, then offers choices — restart the fade each node
+      parleyTextEl.style.animation = 'none';
+      void parleyTextEl.offsetWidth;
+      parleyTextEl.style.animation = 'parleyIn 0.7s cubic-bezier(0.22,1,0.36,1) both';
       parleyOptsEl.innerHTML = '';
-      node.opts.forEach(pair => {
+      node.opts.forEach((pair, idx) => {
         const b = document.createElement('button');
         b.type = 'button';
         b.className = 'parley-btn';
         b.textContent = pair[0];
+        b.style.animation = 'parleyIn 0.55s cubic-bezier(0.22,1,0.36,1) both';
+        b.style.animationDelay = (0.75 + idx * 0.22) + 's';
         b.addEventListener('click', () => {
           if (pair[1] === 'GRANT') grantEntry(parleyEl); else showParley(pair[1]);
         });
