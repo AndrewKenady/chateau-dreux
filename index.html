@@ -1148,6 +1148,15 @@
   }
   .parley-opts{ display:flex; flex-direction:column; gap:10px; margin-top:24px; }
   @keyframes parleyIn{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:translateY(0); } }
+  .parley-text.typing{ cursor:pointer; }
+  .parley-text.typing::after{
+    content:"\258D";
+    margin-left:2px;
+    color:var(--fuchsia);
+    font-style:normal;
+    animation:caretBlink 0.75s steps(1) infinite;
+  }
+  @keyframes caretBlink{ 0%,100%{ opacity:1; } 50%{ opacity:0; } }
   .parley-btn{
     background:transparent;
     border:1px solid rgba(255,46,196,0.45);
@@ -2289,26 +2298,58 @@
     };
     const parleyTextEl = document.getElementById('parleyText');
     const parleyOptsEl = document.getElementById('parleyOpts');
+    // the form types its lines — hesitating at punctuation, as one does
+    let typeTimer = null, typeSkip = null;
+    function typeParley(text, done){
+      clearTimeout(typeTimer);
+      parleyTextEl.classList.add('typing');
+      parleyTextEl.textContent = '';
+      let i = 0;
+      function finish(){
+        clearTimeout(typeTimer);
+        parleyTextEl.textContent = text;
+        parleyTextEl.classList.remove('typing');
+        typeSkip = null;
+        done();
+      }
+      typeSkip = finish; // click the text to skip; the form notices but says nothing
+      function step(){
+        if (i >= text.length){ finish(); return; }
+        const ch = text[i];
+        parleyTextEl.textContent += ch;
+        i++;
+        let delay = 22 + Math.random() * 30;
+        if ('.!?…'.indexOf(ch) !== -1) delay = 430;
+        else if (',;:—'.indexOf(ch) !== -1) delay = 210;
+        typeTimer = setTimeout(step, delay);
+      }
+      step();
+    }
+    parleyTextEl.addEventListener('click', () => { if (typeSkip) typeSkip(); });
+
     function showParley(key){
       const node = PARLEY[key];
-      parleyTextEl.textContent = node.text;
-      // the form speaks first, then offers choices — restart the fade each node
-      parleyTextEl.style.animation = 'none';
-      void parleyTextEl.offsetWidth;
-      parleyTextEl.style.animation = 'parleyIn 0.7s cubic-bezier(0.22,1,0.36,1) both';
-      parleyOptsEl.innerHTML = '';
-      node.opts.forEach((pair, idx) => {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'parley-btn';
-        b.textContent = pair[0];
-        b.style.animation = 'parleyIn 0.55s cubic-bezier(0.22,1,0.36,1) both';
-        b.style.animationDelay = (0.75 + idx * 0.22) + 's';
-        b.addEventListener('click', () => {
-          if (pair[1] === 'GRANT') grantEntry(parleyEl); else showParley(pair[1]);
+      parleyOptsEl.innerHTML = ''; // choices arrive only after the form finishes speaking
+      const buildOpts = () => {
+        node.opts.forEach((pair, idx) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'parley-btn';
+          b.textContent = pair[0];
+          b.style.animation = 'parleyIn 0.55s cubic-bezier(0.22,1,0.36,1) both';
+          b.style.animationDelay = (0.25 + idx * 0.22) + 's';
+          b.addEventListener('click', () => {
+            if (pair[1] === 'GRANT') grantEntry(parleyEl); else showParley(pair[1]);
+          });
+          parleyOptsEl.appendChild(b);
         });
-        parleyOptsEl.appendChild(b);
-      });
+      };
+      if (prefersReducedMotion){
+        parleyTextEl.textContent = node.text;
+        buildOpts();
+      } else {
+        typeParley(node.text, buildOpts);
+      }
     }
 
     // entry by attrition — same fanfare as the honest path
