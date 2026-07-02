@@ -617,7 +617,7 @@
     display:grid;
     grid-template-columns:64px 1fr auto;
     gap:24px;
-    align-items:baseline;
+    align-items:center;
     padding:22px 0;
     border-bottom:1px solid var(--line);
     transition:padding-left 0.35s cubic-bezier(0.22,1,0.36,1), background 0.35s ease;
@@ -1091,6 +1091,43 @@
   .cal-btn.alt:hover{ background:rgba(236,234,242,0.9); color:#08070D; }
   #confirmedPanel .form-note{ margin-top:20px; text-align:center; }
 
+  /* ============ PAYWALL + PARLEY (the form's descent) ============ */
+  .pay-error{
+    border:1px solid rgba(255,77,94,0.5);
+    background:rgba(255,77,94,0.08);
+    color:var(--red);
+    font-family:'Space Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.04em;
+    line-height:1.7;
+    padding:12px 14px;
+    text-align:left;
+  }
+  .parley-text{
+    margin-top:18px;
+    font-size:19px;
+    font-style:italic;
+    line-height:1.75;
+    color:var(--ink);
+    min-height:96px;
+  }
+  .parley-opts{ display:flex; flex-direction:column; gap:10px; margin-top:24px; }
+  .parley-btn{
+    background:transparent;
+    border:1px solid rgba(255,46,196,0.45);
+    color:var(--fuchsia);
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    padding:14px 16px;
+    cursor:pointer;
+    text-align:left;
+    transition:background 0.3s ease, color 0.3s ease;
+  }
+  .parley-btn:hover{ background:var(--fuchsia); color:#08070D; }
+
   /* ============ THE OGRE GOSPEL (type s-h-r-e-k) ============ */
   #jumpscare{
     position:fixed; inset:0;
@@ -1297,7 +1334,7 @@
     <div class="body">
       <p>Membership in this gathering is not extended lightly. The residence in question &mdash; known to its keeper as Château Dreux &mdash; has stood, by design, outside public record since February of 2025, observed by few, documented by fewer, properly welcomed by no one at all.</p>
       <p>That omission concludes on the evening of August 1st, when the doors are opened in full, for the first and, by charter, only time. What has been withheld will be revealed. What has been private will, briefly, be shared.</p>
-      <p>The keeper of the residence departs for <span class="redact" title="Declassified on hover" tabindex="0">the Pacific</span> within the year, and what remains of his tenure will close exactly as it opened &mdash; door unlocked, lights low, something humming quietly in another room. Two occasions, a housewarming considerably overdue and a farewell considerably early, observed as one.</p>
+      <p>The keeper of the residence departs for <span class="redact" title="行ってきます！" tabindex="0">the Pacific</span> within the year, and what remains of his tenure will close exactly as it opened &mdash; door unlocked, lights low, something humming quietly in another room. Two occasions, a housewarming considerably overdue and a farewell considerably early, observed as one.</p>
       <p class="coda">Guests are advised not to dwell on which moment they are currently experiencing. It rarely helps.</p>
     </div>
   </section>
@@ -1402,6 +1439,32 @@
           <button class="cal-btn" id="icsBtn" type="button">Mark Your Calendar (.ics)</button>
           <a class="cal-btn alt" id="gcalBtn" href="#" target="_blank" rel="noopener">Google Calendar</a>
           <div class="form-note">Do not contact the committee. The committee will contact you.</div>
+        </div>
+
+        <!-- shown when the 30s window is allowed to expire -->
+        <div id="paywall" class="ticket-card" style="display:none;">
+          <div class="buy-now-tag">Offer Expired</div>
+          <div class="ticket-label">Standard Admission</div>
+          <div class="ticket-price mono">$1,000.00</div>
+          <div class="ticket-fine">The complimentary window has closed. You watched it close.</div>
+          <form id="payForm" class="rsvp-form" style="margin-top:26px; text-align:left;">
+            <div class="field"><label for="ccnum">Card Number</label><input type="text" id="ccnum" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" autocomplete="off" required></div>
+            <div class="row-2">
+              <div class="field"><label for="ccexp">Expiry</label><input type="text" id="ccexp" maxlength="5" placeholder="MM/YY" autocomplete="off" required></div>
+              <div class="field"><label for="cccvc">CVC</label><input type="text" id="cccvc" inputmode="numeric" maxlength="4" placeholder="&bull;&bull;&bull;" autocomplete="off" required></div>
+            </div>
+            <div class="field"><label for="ccname">Cardholder Name</label><input type="text" id="ccname" autocomplete="off" required></div>
+            <div id="payError" class="pay-error" style="display:none;"></div>
+            <button type="submit" class="claim-btn" id="payBtn" style="margin-top:4px;">Process Payment &mdash; $1,000.00</button>
+            <div class="form-note">Do not enter a real card number. This form goes nowhere. It was always going to go nowhere.</div>
+          </form>
+        </div>
+
+        <!-- shown on return visits after letting the offer expire -->
+        <div id="parley" class="ticket-card" style="display:none; text-align:left;">
+          <div class="ticket-label">Incident Report &middot; The Form Would Like a Word</div>
+          <p class="parley-text" id="parleyText"></p>
+          <div class="parley-opts" id="parleyOpts"></div>
         </div>
       </div>
     </div>
@@ -1613,12 +1676,13 @@
       if (remaining <= 5){ bannerEl.classList.add('frantic-2'); timerEl.classList.add('frantic-2'); claimBtn.classList.add('frantic-2'); }
       else if (remaining <= 12){ bannerEl.classList.add('frantic-1'); timerEl.classList.add('frantic-1'); claimBtn.classList.add('frantic-1'); }
     }
-    function loopReset(){
-      remaining = 30;
+    // the window closes for real now — no more looping mercy
+    function expire(){
+      clearInterval(interval);
       [bannerEl, timerEl, claimBtn].forEach(el => el.classList.remove('frantic-1','frantic-2'));
-      timerEl.textContent = '00:30';
-      ticketCardEl.classList.add('flash');
-      setTimeout(() => ticketCardEl.classList.remove('flash'), 500);
+      try { localStorage.setItem('cd_expired', '1'); } catch (e) {}
+      ticketCardEl.style.display = 'none';
+      document.getElementById('paywall').style.display = 'block';
     }
     function startTimer(){
       remaining = 30; claimed = false;
@@ -1635,7 +1699,7 @@
       interval = setInterval(() => {
         if (claimed) return;
         remaining -= 1;
-        if (remaining <= 0) loopReset(); else render();
+        if (remaining <= 0) expire(); else render();
       }, 1000);
     }
 
@@ -1949,8 +2013,7 @@
     }
 
     document.addEventListener('keydown', (e) => {
-      if (e.target instanceof Element && e.target.matches('input, textarea')) return; // don't hijack the RSVP form
-      if (e.key.length !== 1) return;
+      if (e.key.length !== 1) return; // the gospel hears all typing, even in form fields
       typedBuf = (typedBuf + e.key.toLowerCase()).slice(-5);
       if (typedBuf === 'shrek'){
         typedBuf = '';
@@ -2034,9 +2097,123 @@
       });
     });
 
+    // ===== the committee remembers — visit ledger + tab awareness =====
+    let visits = 1, rapidReturn = false;
+    try {
+      const prevVisits = parseInt(localStorage.getItem('cd_visits'), 10) || 0;
+      const lastVisit = parseInt(localStorage.getItem('cd_last'), 10) || 0;
+      visits = prevVisits + 1;
+      rapidReturn = !!lastVisit && (Date.now() - lastVisit) < 60000;
+      localStorage.setItem('cd_visits', String(visits));
+      localStorage.setItem('cd_last', String(Date.now()));
+    } catch (e) {}
+    let visitNote = '';
+    if (rapidReturn && visits >= 2) visitNote = 'Refreshing changes nothing. The committee remains.';
+    else if (visits === 2) visitNote = 'Welcome back, traveller. The committee never doubted you.';
+    else if (visits === 3) visitNote = 'Third visit. A file has been opened.';
+    else if (visits === 4) visitNote = 'Fourth visit. The cats are beginning to recognize you.';
+    else if (visits >= 5) visitNote = 'Visit Nº ' + visits + '. At this point you are essentially staff.';
+
+    const realTitle = document.title;
+    document.addEventListener('visibilitychange', () => {
+      document.title = document.hidden ? 'The committee notices your absence.' : realTitle;
+    });
+
+    // ===== the paywall — always declines, eventually relents =====
+    const paywallEl = document.getElementById('paywall');
+    const parleyEl = document.getElementById('parley');
+    const payForm = document.getElementById('payForm');
+    const payBtn = document.getElementById('payBtn');
+    const payErrorEl = document.getElementById('payError');
+    const PAY_ERRORS = [
+      'Card declined: insufficient sincerity.',
+      'Transaction blocked by the committee. It is not you. It is the money.',
+      'Payment gateway is experiencing doubt. Perhaps refresh the page and see what happens.',
+      'The bank has asked us both to stop.'
+    ];
+    let payAttempts = 0, payBusy = false;
+    payForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (payBusy) return;
+      payBusy = true;
+      payErrorEl.style.display = 'none';
+      const payMsgs = ['Contacting Bank...', 'Authenticating Sincerity...', 'Escrowing Regret...'];
+      let pi = 0;
+      payBtn.disabled = true;
+      payBtn.textContent = payMsgs[0];
+      const pmi = setInterval(() => { pi = (pi + 1) % payMsgs.length; payBtn.textContent = payMsgs[pi]; }, 600);
+      setTimeout(() => {
+        clearInterval(pmi);
+        payBusy = false;
+        payAttempts++;
+        if (payAttempts >= 5){
+          grantEntry(paywallEl);
+          return;
+        }
+        payBtn.disabled = false;
+        payBtn.textContent = 'Process Payment — $1,000.00';
+        payErrorEl.textContent = PAY_ERRORS[Math.min(payAttempts - 1, PAY_ERRORS.length - 1)];
+        payErrorEl.style.display = 'block';
+      }, 2200);
+    });
+
+    // ===== the parley — refresh after expiry and the form gets chatty =====
+    const PARLEY = {
+      start:   { text: 'Oh. You came back. Did you imagine the timer would reset? Does that usually work for you?', opts: [['Yes', 'yes'], ['No', 'no']] },
+      yes:     { text: 'Remarkable. The committee admires confidence unburdened by precedent. Regrettably, the complimentary window remains closed.', opts: [['Then I shall pay', 'pay'], ['I refuse to pay', 'refuse']] },
+      no:      { text: 'And yet you refreshed. Curious. Hope, perhaps? The committee maintains a file on hope. It is a thick file.', opts: [['It was hope', 'hope'], ['My finger slipped', 'slipped']] },
+      pay:     { text: 'Splendid. Please ready the full $1,000.00. …You do not actually have $1,000.00 ready, do you.', opts: [['No', 'broke'], ['I have it. I simply refuse to use it.', 'refuse']] },
+      refuse:  { text: 'Bold. The committee respects a firm line. The committee also controls the door. We appear to be at an impasse.', opts: [['*stare silently*', 'stare']] },
+      hope:    { text: 'Noted. Filed. Cross-referenced with your previous visits, which were also noted. The offer, however, remains expired.', opts: [['Does it, though?', 'stare']] },
+      slipped: { text: 'Fingers do not slip toward complimentary admission. They slip away from it. This is documented.', opts: [['You got me', 'stare']] },
+      broke:   { text: 'As suspected. In fairness, this form has processed exactly zero successful payments in its operational lifetime.', opts: [['So can I just… come in?', 'stare']] },
+      stare:   { text: '…', opts: [['Continue staring', 'bored']] },
+      bored:   { text: 'FINE. Fine. Entry granted. Complimentary. As it was always going to be. The theater of it meant something once, you know.', opts: [['Claim Free Entry', 'GRANT']] }
+    };
+    const parleyTextEl = document.getElementById('parleyText');
+    const parleyOptsEl = document.getElementById('parleyOpts');
+    function showParley(key){
+      const node = PARLEY[key];
+      parleyTextEl.textContent = node.text;
+      parleyOptsEl.innerHTML = '';
+      node.opts.forEach(pair => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'parley-btn';
+        b.textContent = pair[0];
+        b.addEventListener('click', () => {
+          if (pair[1] === 'GRANT') grantEntry(parleyEl); else showParley(pair[1]);
+        });
+        parleyOptsEl.appendChild(b);
+      });
+    }
+
+    // entry by attrition — same fanfare as the honest path
+    function grantEntry(fromEl){
+      claimed = true;
+      clearInterval(interval);
+      try { localStorage.removeItem('cd_expired'); } catch (e) {}
+      const r = fromEl.getBoundingClientRect();
+      const by = Math.max(80, Math.min(r.top + r.height / 2, window.innerHeight - 80));
+      burstConfetti(r.left + r.width / 2, by);
+      const tada = document.getElementById('tadaAudio');
+      tada.volume = 0.9;
+      tada.play().catch(() => {});
+      if (audioOn){
+        bgAudio.volume = 0.15;
+        setTimeout(() => { if (audioOn) fadeAudioIn(0.55); }, 1800);
+      }
+      ticketCardEl.style.display = 'none';
+      paywallEl.style.display = 'none';
+      parleyEl.style.display = 'none';
+      document.getElementById('rsvpContainer').style.display = 'block';
+    }
+
     // ===== initial state: normal, post-RSVP, or temporal =====
     const gateTitleEl = document.querySelector('.gate-title');
     const gateNoteEl = document.querySelector('.gate-note');
+    let timerExpired = false;
+    try { timerExpired = localStorage.getItem('cd_expired') === '1'; } catch (e) {}
 
     if (urlParams.get('submitted') === '1'){
       // back from FormSubmit — show the confirmation instead of the sales pitch
@@ -2058,8 +2235,25 @@
       if (siteState === 'party'){
         gateNoteEl.textContent = 'The doors are open. The evening is in session. Why are you reading this?';
         gateBtn.textContent = 'Enter Anyway';
+      } else if (visitNote){
+        gateNoteEl.textContent = visitNote;
+        if (visits >= 3) gateBtn.textContent = 'Enter (Again)';
       }
-      startTimer();
+      if (timerExpired){
+        // they let the offer die, then came back. the form has questions.
+        ticketCardEl.style.display = 'none';
+        parleyEl.style.display = 'block';
+        showParley('start');
+      } else {
+        // the scarcity clock only starts once the ticket is actually seen
+        const timerObs = new IntersectionObserver((entries) => {
+          if (entries.some(x => x.isIntersecting)){
+            startTimer();
+            timerObs.disconnect();
+          }
+        }, { threshold: 0.35 });
+        timerObs.observe(ticketCardEl);
+      }
     }
   </script>
 
