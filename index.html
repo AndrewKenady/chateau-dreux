@@ -15,8 +15,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="manor.jpg">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&family=Nosifer&display=swap" rel="stylesheet">
+<link rel="preload" as="font" type="font/woff2" href="nosifer.woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  /* self-hosted so it's preloadable — no pop-in on the first summons */
+  @font-face{
+    font-family:'Nosifer';
+    src:url('nosifer.woff2') format('woff2');
+    font-weight:400;
+    font-style:normal;
+    font-display:block;
+  }
   :root{
     --bg:#08070D;
     --bg-2:#100D1A;
